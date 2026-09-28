@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NORCET & RRB - Respiratory System Apex Masterclass (Part 2)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: #050811; 
+            color: #f1f5f9; 
+            display: flex; 
+            justify-content: center; 
+            line-height: 1.6; 
+            padding: 16px; 
+        }
+        
+        .container { 
+            max-width: 1050px; 
+            width: 100%; 
+        }
+        
+        /* HEADER */
+        .header { 
+            background: #0f172a; 
+            padding: 28px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 35px rgba(14, 165, 233, 0.15); 
+            margin-bottom: 24px; 
+            text-align: center; 
+            border-top: 6px solid #0284c7; 
+            border-bottom: 1px solid #1e293b; 
+        }
+        .header h1 { margin: 0 0 6px 0; font-size: 2.1em; color: #38bdf8; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
+        .header p { margin: 0; color: #94a3b8; font-size: 1.02em; font-weight: 500; }
+        
+        /* DASHBOARD - NORCET TIMERS */
+        .dashboard { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: #090e1a; 
+            padding: 14px 22px; 
+            border-radius: 12px; 
+            margin-top: 18px; 
+            border: 1px solid #1e293b; 
+            font-weight: 700; 
+            font-size: 1.15em; 
+            color: #e2e8f0; 
+            flex-wrap: wrap; 
+            gap: 12px; 
+        }
+        .stat-box { 
+            background: rgba(14, 165, 233, 0.08); 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(14, 165, 233, 0.25); 
+            color: #38bdf8; 
+            text-align: center; 
+        }
+        .timer-red { color: #f87171; border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.08); }
+        
+        /* QUESTION AREA */
+        .question-container { background: #0f172a; padding: 36px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: none; margin-bottom: 20px; border: 1px solid #1e293b; }
+        .question-container.active { display: block; animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .subject-tag { display: inline-block; padding: 5px 14px; background: #082f49; color: #38bdf8; font-size: 0.82em; border-radius: 20px; margin-bottom: 18px; font-weight: 800; border: 1px solid #0284c7; text-transform: uppercase; letter-spacing: 0.8px; }
+        .q-text { font-size: 1.25em; font-weight: 700; margin-bottom: 26px; color: #f8fafc; line-height: 1.6; }
+        
+        /* OPTIONS */
+        .options { display: flex; flex-direction: column; gap: 13px; }
+        .option-btn { background: #090e1a; border: 2px solid #1e293b; padding: 18px; border-radius: 12px; text-align: left; font-size: 1.05em; cursor: pointer; transition: all 0.2s; color: #cbd5e1; font-weight: 600; line-height: 1.5; }
+        
+        @media (hover: hover) {
+            .option-btn:hover:not(.disabled) { background: #1e293b; border-color: #0284c7; transform: translateX(4px); }
+            .nav-btn:hover:not(:disabled) { background: #0284c7; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4); transform: translateY(-2px); }
+        }
+
+        .option-btn.correct { background: #064e3b; border-color: #10b981; color: #a7f3d0; font-weight: 700; box-shadow: 0 0 18px rgba(16, 185, 129, 0.2); }
+        .option-btn.incorrect { background: #7f1d1d; border-color: #ef4444; color: #fecaca; box-shadow: 0 0 18px rgba(239, 68, 68, 0.2); }
+        .option-btn.disabled { pointer-events: none; }
+        
+        /* RATIONALE */
+        .rationale { margin-top: 26px; padding: 22px; background: rgba(14, 165, 233, 0.04); border-left: 5px solid #0284c7; border-radius: 0 12px 12px 0; display: none; font-size: 1.05em; color: #e0f2fe; animation: fadeIn 0.4s; line-height: 1.7; border-top: 1px solid rgba(14, 165, 233, 0.15); border-right: 1px solid rgba(14, 165, 233, 0.15); border-bottom: 1px solid rgba(14, 165, 233, 0.15); }
+        .rationale strong { color: #38bdf8; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 10px; border-bottom: 1px solid rgba(14, 165, 233, 0.25); padding-bottom: 5px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* NAVIGATION & PROGRESS */
+        .navigation { display: flex; justify-content: space-between; margin-top: 30px; gap: 14px; }
+        .nav-btn { flex: 1; background: #0284c7; color: #ffffff; border: none; padding: 16px; border-radius: 10px; font-size: 1.1em; cursor: pointer; transition: 0.25s; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; text-align: center; }
+        .nav-btn:disabled { background: #1e293b; cursor: not-allowed; color: #475569; box-shadow: none; transform: none; }
+        
+        .progress-bar { width: 100%; background: #1e293b; height: 14px; border-radius: 8px; margin-bottom: 24px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #0284c7, #38bdf8); width: 0%; transition: width 0.3s linear; }
+        
+        /* RESULTS SCREEN */
+        #results-screen { display: none; background: #0f172a; padding: 42px 20px; border-radius: 16px; text-align: center; border: 1px solid #1e293b; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .final-score { font-size: 4.2em; color: #38bdf8; font-weight: 900; margin: 18px 0; text-shadow: 0 0 30px rgba(14, 165, 233, 0.35); }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 28px; }
+        .stat-card { background: #090e1a; padding: 15px; border-radius: 10px; border: 1px solid #1e293b; font-size: 1.15em; font-weight: 700; }
+        .stat-card span { display: block; font-size: 1.45em; margin-top: 4px; }
+        .s-att { color: #38bdf8; }
+        .s-unatt { color: #94a3b8; }
+        .s-corr { color: #10b981; }
+        .s-wrong { color: #f87171; }
+
+        @media (max-width: 768px) {
+            body { padding: 8px; }
+            .header { padding: 22px 14px; margin-bottom: 16px; }
+            .header h1 { font-size: 1.45em; }
+            .header p { font-size: 0.88em; }
+            .dashboard { flex-direction: column; gap: 8px; font-size: 1em; padding: 12px; }
+            .stat-box { width: 100%; }
+            .question-container { padding: 20px 14px; margin-bottom: 14px; }
+            .q-text { font-size: 1.1em; margin-bottom: 18px; }
+            .options { gap: 10px; }
+            .option-btn { padding: 14px; font-size: 0.96em; }
+            .rationale { padding: 14px; font-size: 0.95em; margin-top: 18px; }
+            .navigation { margin-top: 20px; flex-direction: column-reverse; gap: 10px; }
+            .nav-btn { width: 100%; font-size: 0.98em; padding: 14px; }
+            .final-score { font-size: 3.2em; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Respiratory System Apex Masterclass (Part 2)</h1>
+        <p>100 High-Yield Clinical Scenarios | 5 Sections (18m/sec) | 90 Mins Total | -0.33 Neg Marking</p>
+        
+        <div class="dashboard">
+            <div class="stat-box" id="section-display">Section: 1 / 5</div>
+            <div class="stat-box" id="q-counter">Q: 1 / 20</div>
+            <div class="stat-box timer-red" id="section-timer">Section Time: 18:00</div>
+            <div class="stat-box" id="total-timer">Total Time: 90:00</div>
+            <div class="stat-box">Score: <span id="score">0.00</span></div>
+        </div>
+    </div>
+    
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div id="quiz-body"></div>
+
+    <div id="results-screen">
+        <h2>NORCET Simulation Concluded</h2>
+        <div class="final-score" id="final-score-display">0.00 / 100</div>
+        
+        <div class="stats-grid">
+            <div class="stat-card s-att">Attempted: <span id="stat-att">0</span></div>
+            <div class="stat-card s-unatt">Unattempted: <span id="stat-unatt">0</span></div>
+            <div class="stat-card s-corr">Correct: <span id="stat-corr">0</span></div>
+            <div class="stat-card s-wrong">Wrong: <span id="stat-wrong">0</span></div>
+        </div>
+        
+        <p style="font-size:1.05em; color:#cbd5e1; margin-bottom: 20px;">Review your clinical rationales to master respiratory critical care nursing.</p>
+        <button class="nav-btn" onclick="location.reload()">Restart Exam</button>
+    </div>
+</div>
+
+<script>
+const rawQuestionsPart1 = [
+    // ==========================================
+    // --- SECTION 1: ADVANCED VENTILATION MECHANICS, GRAPHICS & ARDS (Q1 - Q20) ---
+    // ==========================================
+    {
+        "q": "A mechanically ventilated patient with ARDS on constant-flow Volume Control ventilation is monitored for ventilator-induced lung injury (VILI). The dynamic pressure-time scalar demonstrates an upward concavity with a Stress Index (SI) of 1.35. What is the physiological meaning of this waveform, and what is the corrective ventilator adjustment?",
+        "o": [
+            "Alveoli are undergoing repetitive tidal recruitment and derecruitment; increase PEEP.",
+            "Tidal compliance is progressively worsening toward end-inspiration due to alveolar overdistention; decrease tidal volume or reduce PEEP.",
+            "Airway resistance is elevated due to bronchospasm; administer an inhaled bronchodilator.",
+            "Dynamic hyperinflation is occurring; increase inspiratory flow rate."
+        ],
+        "a": 1,
+        "t": "Ventilator Mechanics / Stress Index",
+        "e": "The Stress Index (SI) analyzes the shape of the dynamic pressure-time curve during constant-flow volume ventilation. An SI = 1 indicates linear compliance throughout inspiration. An SI < 1 (downward concavity) indicates tidal recruitment, meaning PEEP should be increased. An SI > 1 (upward concavity) indicates that compliance is decreasing at end-inspiration due to alveolar overdistention, mandating a reduction in tidal volume or PEEP to prevent barotrauma and volutrauma."
+    },
+    {
+        "q": "An obese patient (BMI 48 kg/m²) with acute respiratory failure is mechanically ventilated. Plateau pressure (Pplat) is 36 cmH2O and PEEP is 12 cmH2O. To differentiate whether the high Pplat is driven by stiff lungs versus a stiff chest wall, an esophageal balloon catheter is inserted. At end-inspiration, the esophageal pressure (Pes) is 22 cmH2O. What is the calculated End-Inspiratory Transpulmonary Pressure (Ptp = Pplat - Pes), and what is the clinical interpretation?",
+        "o": [
+            "Ptp is 24 cmH2O; the lung parenchyma is severely overdistended, requiring immediate tidal volume reduction.",
+            "Ptp is 14 cmH2O; lung parenchymal distending stress is safe (target Ptp <= 20–25 cmH2O), confirming the elevated Pplat is largely due to decreased chest wall compliance.",
+            "Ptp is 48 cmH2O; patient is at imminent risk of bilateral tension pneumothorax.",
+            "Ptp is -10 cmH2O; the alveoli are completely derecruited and collapsed."
+        ],
+        "a": 1,
+        "t": "Advanced Mechanics / Esophageal Manometry",
+        "e": "Transpulmonary pressure ($P_{tp} = P_{aw} - P_{es}$) represents the true distending pressure applied directly to the lung parenchyma, independent of the chest wall. Here, $P_{tp} = 36 - 22 = 14\text{ cmH}_2\text{O}$. In severe obesity or intra-abdominal hypertension, elevated pleural pressure ($P_{es}$) falsely inflates airway pressures ($P_{plat}$). Because the true parenchymal stress ($P_{tp} = 14\text{ cmH}_2\text{O}$) is below the safe threshold of 20–25 cmH2O, the elevated $P_{plat}$ of 36 cmH2O is safe and driven by chest wall stiffness."
+    },
+    {
+        "q": "A critically ill patient with ARDS has a volumetric capnography monitor connected. The clinician evaluates Phase III of the volumetric capnogram (the alveolar plateau). The slope of Phase III is markedly steepened. What does a steepened Phase III slope signify in lung pathophysiology?",
+        "o": ["Severe central hypoventilation without parenchymal disease.", "Marked ventilation-perfusion (V/Q) heterogeneity and uneven alveolar emptying with high physiological dead space.", "Rapid restoration of homogeneous alveolar ventilation following recruitment.", "Complete occlusion of the mainstem endotracheal tube."
+        ],
+        "a": 1,
+        "t": "Monitoring / Volumetric Capnography",
+        "e": "Phase III of the volumetric capnogram represents the exhalation of pure alveolar gas. In healthy lungs, alveolar gas emptying is uniform, producing a nearly flat, horizontal Phase III plateau. A steepened slope of Phase III indicates severe V/Q inequality and asynchronous emptying of lung units with different time constants (slow, poorly ventilated units empty late with high CO2 concentrations), reflecting high alveolar dead space and structural ventilation heterogeneity."
+    },
+    {
+        "q": "While analyzing ventilator waveforms on an intubated patient on Assist-Control ventilation, the nurse notes a negative deflection in airway pressure followed immediately by a small, brief inspiratory flow spike that fails to trigger a machine breath. What specific patient-ventilator asynchrony is this, and what is its most common cause?",
+        "o": ["Double triggering caused by high inspiratory drive.", "Ineffective triggering (wasted effort) caused by severe intrinsic PEEP (Auto-PEEP).", "Reverse triggering caused by deep opioid sedation.", "Premature cycling caused by short inspiratory time settings."
+        ],
+        "a": 1,
+        "t": "Ventilator Waveforms / Asynchrony",
+        "e": "Ineffective triggering occurs when the patient's spontaneous neural effort generates negative airway pressure, but the effort fails to reach the trigger threshold needed to cycle the ventilator. The most common cause is Auto-PEEP (air-trapping). The patient must first generate enough muscle effort to overcome the positive intrinsic alveolar pressure (Auto-PEEP) before airway pressure can drop to the trigger sensitivity level."
+    },
+    {
+        "q": "A patient with severe acute exacerbation of COPD is receiving non-invasive positive pressure ventilation (BiPAP). The nurse observes that when the patient inspires, two distinct mechanical breaths are delivered in rapid succession before the patient can exhale ('double triggering'). What is the underlying driver of double triggering?",
+        "o": ["The set inspiratory time (Ti) or tidal volume is too short relative to the patient's strong, ongoing neural inspiratory drive.", "The expiratory positive airway pressure (EPAP) is set dangerously high.", "The patient has developed an acute bronchopleural air leak.", "The ventilator sensitivity is set to pressure-triggering instead of flow-triggering."
+        ],
+        "a": 0,
+        "t": "NIV / Asynchrony",
+        "e": "Double triggering occurs when the patient's neural inspiratory time exceeds the ventilator's set mechanical inspiratory time (or when the delivered volume is inadequate for patient demand). When the ventilator cycles off, the patient is still actively contracting their inspiratory muscles; this sustained diaphragmatic contraction immediately triggers a second mechanical breath, delivering two breath volumes back-to-back and causing high tidal volumes."
+    },
+    {
+        "q": "The nurse is monitoring an intubated patient with a pulmonary artery catheter and arterial line. The intensivist calculates the dead space fraction using the Bohr-Enghoff equation: $V_d / V_t = (PaCO_2 - P\bar{E}CO_2) / PaCO_2$. The patient's $PaCO_2$ is 50 mmHg and mixed expired CO2 ($P\bar{E}CO_2$) is 15 mmHg. What is the calculated dead space fraction, and what is its prognostic significance in ARDS?",
+        "o": ["$V_d / V_t$ is 0.70; an elevated dead space fraction (> 0.55–0.60) is a powerful, independent predictor of increased mortality in ARDS.", "$V_d / V_t$ is 0.30; indicates normal pulmonary gas exchange efficiency.", "$V_d / V_t$ is 0.45; represents mild physiological dead space seen in health.", "$V_d / V_t$ is 0.15; confirms complete absence of microvascular thrombosis."
+        ],
+        "a": 0,
+        "t": "Advanced Physiology / Dead Space Fraction",
+        "e": "$V_d / V_t = (50 - 15) / 50 = 35 / 50 = 0.70$ (70%). Normal physiological dead space fraction is 0.20 to 0.35 in spontaneous breathing and up to 0.40 in ventilated patients. In ARDS, microvascular pulmonary thrombi, capillary occlusion, and alveolar overdistention cause a massive surge in dead space. Multiple prospective clinical trials prove that a $V_d / V_t > 0.60$ is one of the strongest independent physiological predictors of death in ARDS."
+    },
+    {
+        "q": "A patient with severe ARDS is paralyzed with cisatracurium and ventilated on Volume Control mode. The clinician notes an inspiratory 'duck-bill' or 'beak-like' appearance at the upper end of the dynamic Pressure-Volume (P-V) loop. What mechanical adjustment is immediately indicated?",
+        "o": ["Increase PEEP to recruit more alveoli.", "Decrease the delivered tidal volume to eliminate alveolar overdistention.", "Increase the peak inspiratory flow rate.", "Switch the patient to high-frequency jet ventilation."
+        ],
+        "a": 1,
+        "t": "Ventilator Waveforms / P-V Loops",
+        "e": "On a dynamic Pressure-Volume (P-V) loop, the slope represents compliance ($\Delta V / \Delta P$). As volume is delivered, compliance is relatively linear. If the lung reaches its maximal elastic limit (upper inflection point), pressure continues to rise steeply with almost no gain in volume, creating a classic tapering 'beak' or 'duck-bill' deformity. This is the hallmark of alveolar overdistention; the tidal volume must be decreased immediately to prevent barotrauma."
+    },
+    {
+        "q": "In accordance with the evidence-based PROSEVA trial protocol for prone positioning in severe ARDS ($PaO_2/FiO_2 < 150\text{ mmHg}$), what is the minimum duration of continuous prone positioning recommended per session to achieve significant mortality reduction?",
+        "o": ["At least 4 to 6 consecutive hours per day.", "At least 16 consecutive hours per day.", "2 hours prone alternating with 2 hours supine around the clock.", "Continuous prone positioning for 72 hours without returning supine."
+        ],
+        "a": 1,
+        "t": "Critical Care / Prone Positioning Protocol",
+        "e": "The landmark PROSEVA trial demonstrated a major reduction in 28-day and 90-day mortality in severe ARDS when prone positioning was applied early and maintained for prolonged periods: at least 16 consecutive hours per proning session. Short proning sessions (<12 hours) do not produce sustained improvements in oxygenation, alveolar recruitment, or survival."
+    },
+    {
+        "q": "A patient with acute hypoxemic respiratory failure is managed on High-Flow Nasal Cannula (HFNC) at 60 L/min and $FiO_2$ of 0.70. The nurse assesses the ROX Index 6 hours after initiation. The patient's $SpO_2$ is 88% and respiratory rate is 32 breaths/min. What is the calculated ROX Index, and what is the required clinical action?",
+        "o": ["ROX Index is 6.5; continue current HFNC settings.", "ROX Index is 3.93; indicates successful weaning.", "ROX Index is 3.93; borderline value requiring hourly checks.", "ROX Index is 3.93 (calculated as $[(88 / 0.70) / 32] = 3.93$); because ROX is < 4.88 (and near < 3.85 threshold), this patient is failing HFNC and requires prompt endotracheal intubation."
+        ],
+        "a": 3,
+        "t": "Critical Care / ROX Index",
+        "e": "ROX Index = $[(SpO_2 / FiO_2) / RR]$. Here: $88 / 0.70 = 125.71$; then $125.71 / 32 = 3.93$. A ROX Index $\ge 4.88$ measured at 2, 6, or 12 hours after HFNC initiation is a strong predictor of treatment success. A ROX Index $< 3.85$ to $< 4.88$ with tachypnea and high oxygen demand indicates imminent failure. Delaying intubation in failing HFNC patients increases mortality; prompt intubation is indicated."
+    },
+    {
+        "q": "The critical care nurse is performing a quantitative 'Cuff Leak Test' prior to planned extubation in a patient intubated for 7 days. On Assist-Control volume ventilation, the cuff is deflated. What measured expiratory cuff leak volume (or percentage) indicates a 'positive' leak (i.e., normal airway patency with low risk of post-extubation stridor)?",
+        "o": ["Expiratory cuff leak volume of < 50 mL.", "Expiratory cuff leak volume > 110 mL (or > 12% to 24% of the delivered tidal volume).", "Zero difference in volume between cuff inflation and deflation.", "Expiratory leak volume strictly > 500 mL."
+        ],
+        "a": 1,
+        "t": "Weaning / Cuff Leak Test",
+        "e": "In the cuff leak test, the expiratory tidal volume is measured with the cuff inflated, then the cuff is fully deflated and tidal volume is remeasured over several breaths. A normal, reassuring test ('positive leak') shows a leak volume > 110 mL or > 12–24% of the tidal volume escaping around the tube. A leak volume < 110 mL indicates laryngeal edema and a high risk of post-extubation stridor and re-intubation."
+    },
+    {
+        "q": "If a patient fails the Cuff Leak Test (leak volume < 80 mL) due to suspected laryngeal edema, what is the evidence-based pharmacological strategy to administer BEFORE attempting extubation?",
+        "o": ["Intravenous Dexamethasone (or Methylprednisolone) initiated at least 4 to 6 hours prior to extubation.", "Single dose of oral Diphenhydramine 10 minutes prior to extubation.", "Nebulized Albuterol continuously for 1 hour.", "Subcutaneous Epinephrine 15 minutes post-extubation."
+        ],
+        "a": 0,
+        "t": "Airway Pharmacology / Extubation",
+        "e": "Systemic corticosteroids reduce post-extubation stridor and reintubation rates ONLY if administered early enough to suppress genomic inflammatory transcription and reduce mucosal edema. Guidelines mandate administering intravenous steroids (e.g., Methylprednisolone 20–40 mg every 4–6 hours) for at least 4 to 6 hours (or a 12- to 24-hour course) prior to the planned extubation attempt."
+    },
+    {
+        "q": "A patient with refractory hypoxemia is on Veno-Venous (V-V) ECMO. The intensivist orders 'ultra-protective lung ventilation' for the mechanical ventilator. Which ventilator settings characterize the ultra-protective strategy used during V-V ECMO?",
+        "o": ["Tidal volume 6 mL/kg PBW, rate 20 breaths/min, PEEP 5 cmH2O.", "Tidal volume 2 to 4 mL/kg PBW, respiratory rate 4 to 10 breaths/min, PEEP 10 to 15 cmH2O, and Driving Pressure < 10 cmH2O ('rest settings').", "Pressure Support of 20 cmH2O with zero PEEP.", "Volume Control at 10 mL/kg PBW to clear airway secretions."
+        ],
+        "a": 1,
+        "t": "Critical Care / ECMO Mechanics",
+        "e": "On V-V ECMO, the circuit oxygenator performs the majority of gas exchange (clearing CO2 and adding O2). The mechanical ventilator is dialed down to ultra-protective 'rest settings' (tidal volume 2–4 mL/kg PBW, respiratory rate 4–10/min, PEEP 10–15 cmH2O, Pplat < 25 cmH2O, and driving pressure < 10 cmH2O) to completely rest the lung parenchyma and prevent ventilator-induced lung injury while the lungs heal."
+    },
+    {
+        "q": "During constant-flow volume-controlled ventilation, what physiological change causes an isolated INCREASE in the Peak Inspiratory Pressure (PIP) while the Plateau Pressure (Pplat) remains completely UNCHANGED?",
+        "o": ["Development of an acute tension pneumothorax.", "Severe abdominal distension pushing the diaphragm upward.", "Acute bronchospasm, endotracheal tube biting, or airway mucus plugging.", "Worsening pulmonary edema with severe alveolar collapse."
+        ],
+        "a": 2,
+        "t": "Ventilator Waveforms / Diagnostics",
+        "e": "PIP represents the total pressure needed to overcome airway resistance PLUS alveolar elastance ($PIP = P_{resistive} + P_{elastic}$). Pplat reflects only static alveolar elastance (compliance). If PIP spikes while Pplat stays unchanged, the transpulmonary gradient ($PIP - Pplat$) widens, indicating an isolated increase in airway resistance (bronchospasm, secretions, kinking, biting). If both PIP and Pplat rise together, it indicates a decrease in static lung compliance."
+    },
+    {
+        "q": "A critically ill patient with COVID-19 ARDS on mechanical ventilation displays a sudden drop in respiratory system compliance from 35 mL/cmH2O to 15 mL/cmH2O. Both PIP and Pplat spike simultaneously. Which pathology accounts for this simultaneous rise in both static and dynamic airway pressures?",
+        "o": ["Endotracheal tube partial occlusion with dried mucus.", "Patient biting the endotracheal tube.", "Acute tension pneumothorax or massive lobar atelectasis.", "Accumulation of water in the ventilator corrugated tubing."
+        ],
+        "a": 2,
+        "t": "Ventilator Mechanics / Diagnostics",
+        "e": "When both PIP and Pplat rise in parallel while tidal volume remains constant, the static compliance of the respiratory system ($C_{stat} = V_t / [Pplat - PEEP]$) has decreased. This indicates a stiff thoracic compartment, caused by lung parenchymal pathology (worsening ARDS, pulmonary edema, consolidation, atelectasis) or extraparenchymal compression (tension pneumothorax, massive pleural effusion, acute abdominal compartment syndrome)."
+    },
+    {
+        "q": "A patient with severe airflow limitation is ventilated on VC mode. The clinician performs an 'Expiratory Hold' maneuver on the ventilator. What parameter is directly measured by an expiratory hold?",
+        "o": ["Plateau Pressure (Pplat)", "Total PEEP (and Intrinsic PEEP / Auto-PEEP)", "Airway Resistance (Raw)", "Dynamic Compliance (Cdyn)"
+        ],
+        "a": 1,
+        "t": "Ventilator Mechanics / Auto-PEEP",
+        "e": "An inspiratory hold measures Plateau Pressure (static compliance). An expiratory hold occludes the circuit at the very end of exhalation just before the next breath. This allows trapped alveolar pressure to equilibrate with the ventilator sensor, measuring Total PEEP. Intrinsic PEEP (Auto-PEEP) is then calculated as: $\text{Total PEEP} - \text{Set PEEP}$."
+    },
+    {
+        "q": "In high-frequency oscillatory ventilation (HFOV), why does decreasing the frequency (Hz) cause an INCREASE in carbon dioxide ($CO_2$) elimination?",
+        "o": ["Lower frequency increases the bias flow velocity.", "Lower frequency allows more time for the oscillatory piston to travel, producing a larger oscillatory stroke volume (tidal volume displacement).", "Lower frequency activates the Hering-Breuer reflex.", "Lower frequency decreases mean airway pressure."
+        ],
+        "a": 1,
+        "t": "Advanced Ventilation / HFOV",
+        "e": "In HFOV, minute ventilation is governed by the power of the displacement: $\text{Transport} = f \times V_t^2$. Notice that volume is squared ($V_t^2$). At a lower frequency (e.g., dropping from 6 Hz to 4 Hz), the piston has more physical time in each cycle to complete its backward and forward excursion, resulting in a substantially larger delivered tidal volume. Because tidal volume has an exponential effect ($V_t^2$), dropping frequency increases CO2 clearance."
+    },
+    {
+        "q": "A mechanically ventilated patient in the ICU exhibits 'Trigger Delay' asynchrony. Which sensor setting modification is most effective in eliminating trigger delay in a patient with weak spontaneous diaphragmatic excursion?",
+        "o": ["Switching from flow-triggering to pressure-triggering with a threshold of -3 cmH2O.", "Switching from pressure-triggering to flow-triggering (e.g., flow trigger of 1.5 to 2.0 L/min) to reduce patient inspiratory work.", "Increasing the set mandatory ventilator rate.", "Adding an inspiratory plateau hold of 1.0 second."
+        ],
+        "a": 1,
+        "t": "Ventilator Asynchrony / Triggering",
+        "e": "Flow-triggering is more sensitive and responsive than pressure-triggering. In pressure-triggering, the patient must generate a negative pressure against a closed circuit valve, causing substantial work of breathing and trigger delay. Flow-triggering uses a continuous background bias flow; when the patient inhales, returning flow drops, immediately opening the inspiratory valve with minimal delay."
+    },
+    {
+        "q": "A patient with severe acute lung injury is ventilated using Airway Pressure Release Ventilation (APRV). Which statement accurately characterizes the physiological mechanism of APRV?",
+        "o": ["It delivers continuous low pressure with intermittent high-pressure tidal breaths.", "It provides Continuous Positive Airway Pressure at a high level ($P_{high}$) for a prolonged time ($T_{high}$) to promote recruitment, interrupted by brief releases to a lower pressure ($P_{low}$) for a short time ($T_{low}$) to clear CO2, while allowing unrestricted spontaneous breathing throughout.", "It functions identically to conventional Inverse Ratio Ventilation without spontaneous breathing.", "It is a volume-targeted mode that prevents spontaneous diaphragmatic contraction."
+        ],
+        "a": 1,
+        "t": "Advanced Modes / APRV",
+        "e": "APRV is a pressure-limited, time-cycled mode that applies continuous high airway pressure ($P_{high}$, usually 25–30 cmH2O) for a long time ($T_{high}$, 4–6 seconds) to maximize alveolar recruitment (open-lung approach). It then releases briefly to a low pressure ($P_{low}$, 0 cmH2O) for a short duration ($T_{low}$, 0.4–0.8 seconds) to allow passive exhalation of CO2 without allowing alveoli to collapse. Spontaneous breathing is permitted at all times."
+    },
+    {
+        "q": "The nurse is titrating $T_{low}$ (release time) on an APRV ventilator circuit. What physiological parameter and waveform guide the optimal setting of $T_{low}$ to prevent end-expiratory alveolar collapse (derecruitment)?",
+        "o": ["Setting $T_{low}$ until expiratory flow reaches zero.", "Terminating $T_{low}$ when the expiratory flow rate drops to 75% of the Peak Expiratory Flow Rate (PEFR).", "Setting $T_{low}$ to 3.0 seconds.", "Adjusting $T_{low}$ based on arterial oxygen saturation."
+        ],
+        "a": 1,
+        "t": "Advanced Modes / APRV Waveforms",
+        "e": "In APRV, $P_{low}$ is set to 0 cmH2O. To prevent the open alveoli from collapsing during the release phase, the release time ($T_{low}$) must be deliberately truncated before complete exhalation occurs. By setting $T_{low}$ so that exhalation is stopped when expiratory flow reaches 75% of peak expiratory flow, an intrinsic PEEP is generated that traps gas and prevents alveolar derecruitment."
+    },
+    {
+        "q": "A patient with acute hypoxemic respiratory failure is assessed using Electrical Impedance Tomography (EIT). What unique real-time bedside information does EIT provide that conventional chest radiography and pulse oximetry cannot?",
+        "o": ["Continuous dynamic visualization of regional tidal ventilation distribution, alveolar collapse, and cyclic overdistention across dependent and non-dependent lung zones.", "Direct measurement of pulmonary capillary wedge pressure.", "Continuous bacteriological culture of alveolar secretions.", "Continuous measurement of mixed venous oxygen saturation."
+        ],
+        "a": 0,
+        "t": "Advanced Monitoring / EIT",
+        "e": "Electrical Impedance Tomography (EIT) uses a non-invasive electrode belt around the thorax that injects high-frequency electrical currents to measure cross-sectional bioimpedance changes. It provides continuous, real-time bedside functional imaging of regional ventilation distribution, allowing clinicians to visually track alveolar derecruitment in dependent lung zones and overdistention in non-dependent zones during PEEP titration."
+    },
+
+    // ==========================================
+    // --- SECTION 2: PULMONARY VASCULAR, SHOCK & OXYGENATION PHYSICS (Q21 - Q40) ---
+    // ==========================================
+    {
+        "q": "An intubated patient in the ICU has a pulmonary artery catheter (Swan-Ganz). At what precise point in the respiratory cycle MUST the nurse freeze the monitor waveform and measure the Pulmonary Artery Wedge Pressure (PAWP / PCWP)?",
+        "o": ["At peak inspiration during positive pressure ventilation.", "At end-expiration, where intrathoracic pressure swings are closest to atmospheric zero.", "At the exact mid-point of the inspiratory cycle.", "Averaged across 10 complete respiratory cycles regardless of ventilation mode."
+        ],
+        "a": 1,
+        "t": "Hemodynamics / Pulmonary Artery Catheter",
+        "e": "Respiratory cycles induce major cyclical swings in pleural and intrathoracic pressure (positive swings during positive-pressure mechanical breaths, negative swings during spontaneous breaths). At the end of expiration (just before inspiration begins), pleural pressure is closest to zero relative to atmosphere. Measuring PAWP at end-expiration eliminates respiratory artifact, providing the true intravascular transmural filling pressure."
+    },
+    {
+        "q": "In which physiological zone of the lung (according to West's Pulmonary Zones) MUST a Pulmonary Artery Catheter (PAC) tip be located to ensure that the wedge pressure (PAWP) reflects left atrial pressure rather than alveolar pressure?",
+        "o": ["West Zone 1 ($P_A > P_a > P_v$)", "West Zone 2 ($P_a > P_A > P_v$)", "West Zone 3 ($P_a > P_v > P_A$)", "West Zone 4 ($P_{interstitial} > P_A$)"],
+        "a": 2,
+        "t": "Physiology / West Zones of the Lung",
+        "e": "In West Zone 3 (the dependent bases of the lungs), arterial pressure ($P_a$) and venous pressure ($P_v$) both exceed alveolar pressure ($P_A$), ensuring continuous, uninterrupted blood flow. When the balloon is inflated, an unbroken column of blood connects the catheter tip through the pulmonary capillary bed into the left atrium. If the catheter is in Zone 1 or 2, high alveolar pressure can compress the capillaries, causing the catheter to measure alveolar pressure ($P_A$) rather than left atrial pressure."
+    },
+    {
+        "q": "A patient with acute respiratory failure breathing 100% oxygen ($FiO_2 = 1.0$) has a $PaO_2$ of 82 mmHg and a $PaCO_2$ of 40 mmHg. The alveolar-arterial oxygen gradient ($P(A-a)O_2$) is calculated as: $PAO_2 = [FiO_2 \times (760 - 47)] - (PaCO_2 / 0.8) = [1.0 \times 713] - 50 = 663\text{ mmHg}$. $A\text{-}a\text{ Gradient} = 663 - 82 = 581\text{ mmHg}$. What physiological defect explains hypoxemia that fails to correct despite 100% oxygen?",
+        "o": ["Moderate ventilation-perfusion (V/Q) mismatch.", "True right-to-left intrapulmonary shunt (perfusion of completely unventilated/collapsed alveoli).", "Severe alveolar hypoventilation.", "Diffusion limitation across thickened basement membrane."
+        ],
+        "a": 1,
+        "t": "Physiology / Intrapulmonary Shunt",
+        "e": "Hypoxemia caused by simple V/Q mismatch or hypoventilation corrects readily when the patient breathes 100% oxygen. However, hypoxemia caused by a true physiological right-to-left shunt (blood passing through non-ventilated alveoli filled with pus, water, or collapsed by atelectasis) CANNOT be overcome by raising $FiO_2$. Deoxygenated shunted blood bypasses gas exchange entirely, mixing with oxygenated blood in the left atrium and keeping $PaO_2$ refractory."
+    },
+    {
+        "q": "A firefighter rescued from an industrial chemical fire presents with stupor, tachypnea, and hypotension. The arterial blood gas drawn in the ED reveals: pH 7.12, $PaCO_2$ 28 mmHg, $PaO_2$ 105 mmHg, $HCO_3^-$ 9 mEq/L, and serum Lactate 16 mmol/L. Venous blood gas drawn from the central line shows a central venous oxygen saturation ($ScvO_2$) of 92% (markedly elevated). What cellular toxin explains this 'arterialization' of venous blood?",
+        "o": ["Carbon monoxide poisoning.", "Hydrogen Cyanide toxicity inhibiting cytochrome c oxidase.", "Organophosphate poisoning.", "Phosgene gas inhalation."
+        ],
+        "a": 1,
+        "t": "Toxicology / Cyanide Poisoning",
+        "e": "Cyanide binds with high affinity to ferric iron ($Fe^{3+}$) within mitochondrial Cytochrome c Oxidase (Complex IV), completely halting aerobic cellular respiration and oxidative phosphorylation. Because cells cannot extract or utilize oxygen from the blood, oxygen passes unused through the capillary bed straight into the venous system. This produces pathognomonic venous hyperoxia (elevated $ScvO_2 > 90\%$) and catastrophic lactic acidosis."
+    },
+    {
+        "q": "A patient with acute, severe laryngeal edema and stridor following anaphylaxis is awaiting emergency tracheostomy. The intensivist orders Helium-Oxygen mixture (Heliox 80:20). What physical principle explains how Heliox reduces the work of breathing across an obstructed upper airway?",
+        "o": ["Helium is a potent chemical relaxant of bronchial smooth muscle.", "Helium has an extremely low density compared to nitrogen, which lowers the Reynolds number, converting turbulent flow into laminar flow across narrowed airways.", "Helium directly increases the alveolar-capillary oxygen diffusion gradient.", "Helium displaces carbon dioxide from hemoglobin."
+        ],
+        "a": 1,
+        "t": "Physics / Heliox Therapy",
+        "e": "In accordance with fluid dynamics and Graham's law, gas flow through a narrowed orifice is turbulent and governed by gas DENSITY. Helium is roughly one-seventh the density of nitrogen. Breathing a helium-oxygen mixture (80:20 or 70:30) lowers the Reynolds number, converting turbulent, high-resistance flow into smooth, laminar flow, which substantially reduces the pressure gradient needed for ventilation and alleviates respiratory muscle exhaustion."
+    },
+    {
+        "q": "A mechanically ventilated patient with severe status asthmaticus is receiving Heliox (70:30 mixture). The bedside nurse is using a standard oxygen flowmeter calibrated for pure oxygen to titrate flow. What mathematical conversion factor MUST the nurse apply to determine the actual gas flow rate delivered through an oxygen flowmeter when using Heliox 70:30?",
+        "o": ["Multiply the flowmeter reading by 1.0 (no conversion needed).", "Multiply the flowmeter reading by 1.6.", "Divide the flowmeter reading by 2.0.", "Multiply the flowmeter reading by 1.8."
+        ],
+        "a": 1,
+        "t": "Critical Care / Heliox Calculations",
+        "e": "Because flowmeters are calibrated for the density of 100% oxygen, lower-density Heliox passes through the meter much faster than indicated. To calculate true delivered flow: for an 80:20 Heliox mixture, multiply the reading by 1.8; for a 70:30 Heliox mixture, multiply the flowmeter reading by 1.6. (For example, an indicated flow of 10 L/min delivers an actual flow of $10 \times 1.6 = 16\text{ L/min}$)."
+    },
+    {
+        "q": "A critically ill patient receiving high-dose inhaled epoprostenol (Flolan / Prostacyclin) for refractory hypoxemic respiratory failure is on a mechanical ventilator. What critical mechanical maintenance intervention MUST the respiratory team perform every 2 hours to prevent catastrophic ventilator failure?",
+        "o": ["Replace the endotracheal tube.", "Check, clean, or change the expiratory bacterial filter on the ventilator circuit to prevent sticky surfactant-like drug residue from occluding the expiratory valve and generating lethal intrinsic PEEP.", "Recalibrate the ventilator oxygen sensor.", "Flush the nebulizer line with 50 mL sterile water."
+        ],
+        "a": 1,
+        "t": "Critical Care / Pharmacology & Safety",
+        "e": "Aerosolized epoprostenol (Prostacyclin) is alkaline and contains glycine buffer; when nebulized continuously into a ventilator circuit, it forms sticky, crystalized residues that rapidly coat and clog the expiratory filter. If the filter is not monitored and replaced regularly (every 2–4 hours), expiratory resistance spikes, exhalation is blocked, and the patient suffers severe barotrauma, pneumothorax, or cardiac arrest from unvented airway pressure."
+    },
+    {
+        "q": "A patient with refractory ARDS is initiated on continuous inhaled epoprostenol. Why is inhaled epoprostenol preferred over intravenous epoprostenol for improving oxygenation in acute lung injury?",
+        "o": ["Inhaled epoprostenol is 100 times cheaper than intravenous formulations.", "Inhaled epoprostenol acts selectively on pulmonary capillaries adjacent to ventilated alveoli, shunting blood to well-ventilated areas, whereas intravenous epoprostenol causes non-selective vasodilation that worsens intrapulmonary shunt and causes systemic hypotension.", "Inhaled epoprostenol has a half-life of 24 hours.", "Intravenous epoprostenol causes immediate bronchoconstriction."
+        ],
+        "a": 1,
+        "t": "Pharmacology / Selective Vasodilation",
+        "e": "Inhaled pulmonary vasodilators (inhaled epoprostenol, inhaled nitric oxide) deposit exclusively in lung units that receive ventilation. They selectively dilate the capillary beds of open, ventilated alveoli, redistributing blood flow away from non-ventilated, consolidated lung units (reducing physiological shunt and improving $PaO_2$) without dropping systemic blood pressure."
+    },
+    {
+        "q": "A 24-year-old female presents with recurrent, spontaneous catamenial pneumothoraces occurring within 48 to 72 hours of the onset of menses. What is the definitive etiology of this condition?",
+        "o": ["High levels of circulating progesterone triggering spontaneous pleural bullae rupture.", "Thoracic Endometriosis Syndrome (TES), where functional endometrial implants seed onto the diaphragm and visceral pleura, causing tissue breakdown and pleural perforation during menstruation.", "Estrogen-induced pulmonary arteritis.", "Catamenial bacterial pneumonia."
+        ],
+        "a": 1,
+        "t": "Pleural Pathology / Thoracic Endometriosis",
+        "e": "Catamenial pneumothorax is a rare condition occurring almost exclusively in women of reproductive age. It is the hallmark of Thoracic Endometriosis Syndrome (TES), where ectopic endometrial tissue implants on the diaphragm or visceral pleura (typically right-sided). During menses, these implants respond to hormonal cycling, bleeding and sloughing, which leads to diaphragmatic fenestrations, visceral pleural perforation, and recurrent pneumothoraces."
+    },
+    {
+        "q": "A trauma patient involved in a high-speed deceleration collision presents with surgical emphysema of the neck, hoarseness, pneumomediastinum, and a continuous air leak through two chest tubes. Auscultation over the precordium reveals a distinct, crunching, crackling sound synchronous with each heartbeat. What is this classic clinical sign called?",
+        "o": ["Hamman's sign (Hamman's crunch)", "Broadbent's sign", "Branham's sign", "Trousseau's sign"
+        ],
+        "a": 0,
+        "t": "Thoracic Trauma / Physical Signs",
+        "e": "Hamman's sign (Hamman's crunch) is a rasping, crunching, or clicking sound auscultated over the left sternal border and precordium, perfectly synchronized with cardiac systole rather than respirations. It is pathognomonic for Pneumomediastinum (air in the mediastinum compressing against the pericardium), classically seen in tracheobronchial rupture, Boerhaave's syndrome (esophageal rupture), or severe barotrauma."
+    },
+    {
+        "q": "A young female smoker presents with spontaneous recurrent pneumothoraces, exertional dyspnea, and chylothorax. High-resolution chest CT reveals diffuse, thin-walled, round, air-filled pulmonary cysts uniformly distributed throughout both lungs with normal intervening parenchyma. Genetic analysis reveals a mutation in the TSC2 gene. What is the diagnosis, and which targeted therapy inhibits disease progression?",
+        "o": ["Idiopathic Pulmonary Fibrosis; Pirfenidone", "Lymphangioleiomyomatosis (LAM); Sirolimus (mTOR inhibitor)", "Pulmonary Langerhans Cell Histiocytosis; Corticosteroids", "Cystic Fibrosis; Ivacaftor"
+        ],
+        "a": 1,
+        "t": "Rare Lung Diseases / LAM",
+        "e": "Lymphangioleiomyomatosis (LAM) is a rare, progressive cystic lung disease affecting almost exclusively young women of childbearing age, associated with mutations in tuberous sclerosis complex genes (TSC1/TSC2). Inappropriate activation of the mammalian target of rapamycin (mTOR) pathway drives smooth-muscle-like cell infiltration and cystic destruction. Sirolimus (Rapamycin) is an mTOR inhibitor proven to stabilize lung function and resolve chylothorax in LAM."
+    },
+    {
+        "q": "A patient with refractory anti-glomerular basement membrane (Anti-GBM / Goodpasture's) disease is admitted with active alveolar hemorrhage. The nurse reviews the pulmonary function test results. How does active intra-alveolar hemorrhage uniquely affect the Diffusing Capacity of the Lung for Carbon Monoxide (DLCO)?",
+        "o": ["DLCO drops precipitously to < 20% predicted due to alveolar flooding.", "DLCO paradoxically INCREASES markedly (often > 120%–140% of predicted), because intact red blood cells pooling inside the alveolar space actively bind and consume carbon monoxide during the test.", "DLCO remains completely unaltered because it only measures capillary uptake.", "DLCO cannot be calculated."
+        ],
+        "a": 1,
+        "t": "Diagnostics / PFTs in Hemorrhage",
+        "e": "In active Diffuse Alveolar Hemorrhage (DAH), free red blood cells reside directly within the alveolar airspaces. During the DLCO test, the patient inhales a tracer mixture containing carbon monoxide. The extravasated alveolar RBCs rapidly bind the carbon monoxide before it even crosses the capillary membrane, producing an artificially elevated, supranormal DLCO value (>100–120% predicted). A sudden jump in DLCO in a vasculitis patient signals acute occult alveolar bleeding."
+    },
+    {
+        "q": "A 36-year-old male presents with progressive exertional dyspnea, dry cough, and milky-white, opaque, gelatinous sputum. Bronchoalveolar lavage (BAL) yields thick, turbid fluid that stains intensely positive with Periodic Acid-Schiff (PAS). High-resolution CT shows a 'crazy-paving' pattern. Autoantibodies against Granulocyte-Macrophage Colony-Stimulating Factor (anti-GM-CSF) are strongly positive. What is the gold-standard therapeutic procedure?",
+        "o": ["High-dose systemic oral pulse cyclophosphamide therapy.", "Whole Lung Lavage (WLL) performed under general anesthesia using a double-lumen endotracheal tube.", "Immediate bilateral lung transplantation.", "Inhaled Dornase alfa."
+        ],
+        "a": 1,
+        "t": "Rare Lung Diseases / Whole Lung Lavage",
+        "e": "Pulmonary Alveolar Proteinosis (PAP) is driven by anti-GM-CSF neutralizing antibodies that paralyze alveolar macrophages, preventing them from catabolizing surfactant. Surfactant accumulates, filling alveoli with PAS-positive proteinaceous material ('crazy-paving' pattern). The gold-standard treatment is Whole Lung Lavage (WLL), where one lung is mechanically ventilated while the other is lavaged with 20–40 liters of warm saline via a double-lumen endotracheal tube to physically wash out the lipoproteinaceous debris."
+    },
+    {
+        "q": "A 30-year-old heavy cigarette smoker presents with dyspnea and spontaneous pneumothorax. Chest HRCT reveals a combination of ill-defined centrilobular nodules, cavitary nodules, and bizarre, irregular, thick-walled cysts predominantly sparing the lung bases. Biopsy reveals CD1a-positive and Langerin-positive dendritic histiocytic proliferation. What is the single most effective therapeutic intervention?",
+        "o": ["Lifelong oral Cyclophosphamide therapy", "Immediate and permanent smoking cessation", "Systemic broad-spectrum antifungal therapy", "Prophylactic bilateral pleurectomy"
+        ],
+        "a": 1,
+        "t": "Occupational / Smoking Pathology",
+        "e": "Pulmonary Langerhans Cell Histiocytosis (PLCH) is a smoking-induced interstitial lung disease characterized by clonal dendritic cell infiltration forming nodules that cavitate into bizarre cysts in upper and mid lung fields (sparing the bases). Over 90% of cases occur in active smokers. Complete, permanent smoking cessation is the cornerstone intervention, which leads to partial or complete disease regression in the majority of patients."
+    },
+    {
+        "q": "A patient with severe allergic asthma has high blood eosinophils (600/μL) and frequent exacerbations. The physician prescribes Benralizumab (Fasenra). What is the unique cytotoxic mechanism of action of Benralizumab compared to Mepolizumab?",
+        "o": ["It neutralizes circulating IL-5 cytokines directly.", "It binds directly to the IL-5 receptor alpha ($IL\text{-}5R\alpha$) on eosinophils and basophils, recruiting Natural Killer (NK) cells to induce Antibody-Dependent Cellular Cytotoxicity (ADCC), triggering near-total eosinophil depletion.", "It inhibits the release of thymic stromal lymphopoietin.", "It blocks the high-affinity IgE receptor."
+        ],
+        "a": 1,
+        "t": "Pharmacology / Biologics",
+        "e": "While Mepolizumab and Reslizumab bind to circulating IL-5 ligands, Benralizumab is a humanized monoclonal antibody directed against the alpha chain of the IL-5 receptor ($IL\text{-}5R\alpha$) expressed on eosinophils and basophils. Its engineered, afucosylated Fc domain binds with high affinity to Fc$\gamma$RIIIa receptors on natural killer (NK) cells, triggering antibody-dependent cell-mediated cytotoxicity (ADCC) that rapidly and near-completely depletes eosinophils in blood and tissues."
+    },
+    {
+        "q": "A patient with severe, steroid-dependent asthma is prescribed Dupilumab (Dupixent). Which dual cytokine signaling pathways are simultaneously blocked by Dupilumab?",
+        "o": ["Tumor Necrosis Factor-alpha and Interleukin-1", "Interleukin-4 (IL-4) and Interleukin-13 (IL-13) signaling via the shared IL-4R alpha receptor subunit", "Interleukin-2 and Interleukin-6", "Interleukin-17 and Interleukin-23"
+        ],
+        "a": 1,
+        "t": "Pharmacology / Biologics",
+        "e": "Dupilumab is a fully human monoclonal antibody directed against the IL-4 receptor alpha ($IL\text{-}4R\alpha$) subunit, which is shared by both the IL-4 and IL-13 receptor complexes. By blocking this shared receptor, it simultaneously inhibits both IL-4 and IL-13 downstream signaling, suppressing Th2 inflammatory gene expression, IgE class-switching, goblet cell hyperplasia, and airway hyperresponsiveness."
+    },
+    {
+        "q": "A patient with Idiopathic Pulmonary Fibrosis (IPF) is initiated on Nintedanib (Ofev). What is the molecular target and mechanism of action of Nintedanib in slowing pulmonary fibrosis?",
+        "o": ["Inhibition of transforming growth factor-beta (TGF-beta) synthesis.", "Competitive intracellular inhibition of multiple receptor tyrosine kinases, specifically Platelet-Derived Growth Factor Receptor (PDGFR), Fibroblast Growth Factor Receptor (FGFR), and Vascular Endothelial Growth Factor Receptor (VEGFR).", "Selective alkylation of fibroblast DNA strands.", "Inhibition of the cyclic guanosine monophosphate pathway."
+        ],
+        "a": 1,
+        "t": "Pharmacology / Antifibrotics",
+        "e": "Nintedanib is an oral small-molecule intracellular tyrosine kinase inhibitor. It competitively binds the ATP-binding pocket of key receptors involved in the proliferation and migration of lung fibroblasts: PDGFR ($\alpha$ and $\beta$), FGFR (1, 2, and 3), and VEGFR (1, 2, and 3). By blocking these pathways, it significantly slows the rate of annual FVC decline in IPF."
+    },
+    {
+        "q": "A patient with Idiopathic Pulmonary Fibrosis is prescribed Pirfenidone (Esbriet). Which adverse drug effect is most common, requiring rigorous nursing education on sun avoidance and SPF protection?",
+        "o": ["Peripheral neuropathy and optic neuritis", "Severe photosensitivity rash and drug-induced dermatitis", "Gingival hyperplasia", "Hypothyroidism"
+        ],
+        "a": 1,
+        "t": "Pharmacology / Patient Education",
+        "e": "Pirfenidone (an oral antifibrotic that downregulates TGF-$\beta$ and collagen synthesis) causes prominent dermatological photosensitivity in up to 30–50% of patients. Exposure to sunlight produces severe erythema, rash, and blistering. Patients must be educated to avoid direct sun exposure, wear protective clothing, and apply broad-spectrum sunscreen (SPF 50) daily."
+    },
+    {
+        "q": "A patient presents with acute respiratory symptoms following exposure to moldy, wet sugarcane remnants in a paper processing mill. What specific occupational hypersensitivity pneumonitis is this?",
+        "o": ["Byssinosis", "Bagassosis (caused by Thermoactinomyces sacchari)", "Farmer's lung", "Silo-filler's disease"
+        ],
+        "a": 1,
+        "t": "Occupational Diseases / Bagassosis",
+        "e": "Bagassosis is an occupational hypersensitivity pneumonitis caused by inhalation of thermophilic actinomycetes (specifically Thermoactinomyces sacchari) found in stored, moldy, drying sugarcane bagasse (the fibrous residue remaining after sugar extraction, used in paper and board manufacturing). Byssinosis is caused by cotton dust; Silo-filler's disease is caused by toxic nitrogen dioxide."
+    },
+    {
+        "q": "A textile mill worker presents with episodic chest tightness, wheezing, and dyspnea that occurs classically on MONDAY mornings upon returning to work, improving gradually toward the end of the work week and disappearing over the weekend. What is the diagnosis?",
+        "o": ["Occupational Asthma", "Byssinosis ('Monday morning chest tightness' caused by raw cotton dust exposure)", "Pneumoconiosis", "Silicosis"
+        ],
+        "a": 1,
+        "t": "Occupational Diseases / Byssinosis",
+        "e": "Byssinosis ('brown lung disease') is caused by inhalation of cotton, flax, or hemp dust in textile mills. Its classic pathognomonic hallmark is 'Monday chest tightness' or 'Monday fever'—dyspnea and bronchoconstriction that peak on the first day of the work week after a period of non-exposure (weekends) and diminish over subsequent work days as tachyphylaxis develops. Chronic exposure causes irreversible airflow obstruction."
+    },
+
+    // ==========================================
+    // --- SECTION 3: INFECTIONS, PEDIATRICS & PROCEDURAL EMERGENCIES (Q41 - Q50 of 20) ---
+    // ==========================================
+    {
+        "q": "A 10-year-old child presents with high fever, barking cough, and progressive inspiratory stridor. Laryngoscopy reveals thick, copious, foul-smelling mucopurulent tracheal pseudomembranes that do not respond to nebulized racemic epinephrine. What bacterial infection is this, and what is the primary pathogen?",
+        "o": ["Viral Croup; Parainfluenza type 1", "Bacterial Tracheitis (pseudomembranous croup); Staphylococcus aureus", "Acute Epiglottitis; Haemophilus influenzae", "Diphtheria; Corynebacterium diphtheriae"
+        ],
+        "a": 1,
+        "t": "Pediatric Emergencies / Airway",
+        "e": "Bacterial Tracheitis (pseudomembranous croup) is a life-threatening, invasive subglottic bacterial infection primarily caused by Staphylococcus aureus (including MRSA). It frequently presents as a secondary bacterial worsening following a viral croup-like illness. Hallmarks are high fever, thick purulent tracheal secretions forming obstructive pseudomembranes, and total lack of response to racemic epinephrine. Urgent intubation and bronchoscopic debridement are frequently required."
+    },
+    {
+        "q": "A 3-year-old child presents with paroxysmal bouts of severe coughing followed by an inspiratory 'whoop' and post-tussive emesis. Complete blood count reveals a marked leukocytosis of 45,000/μL with 80% mature lymphocytes (absolute lymphocytosis). What pathogen is responsible, and which antimicrobial class is first-line?",
+        "o": ["Bordetella pertussis; Macrolides (Azithromycin / Clarithromycin)", "Respiratory Syncytial Virus; Ribavirin", "Mycoplasma pneumoniae; Doxycycline", "Streptococcus pneumoniae; Amoxicillin"
+        ],
+        "a": 0,
+        "t": "Pediatric Infectious / Pertussis",
+        "e": "Pertussis (Whooping cough) is caused by Bordetella pertussis. During the paroxysmal stage, pertussis toxin stimulates marked lymphocytosis (often >30,000–50,000/μL with mature lymphocytes), which is a key diagnostic clue. Macrolides (Azithromycin) are the first-line therapy to eradicate nasopharyngeal carriage and prevent secondary transmission, although they do not shorten the paroxysmal coughing phase once established."
+    },
+    {
+        "q": "A 14-year-old adolescent presents with chest wall deformity. The Haller Index is calculated from non-contrast CT of the chest by dividing the transverse diameter of the thoracic cavity by the shortest anterior-posterior distance between the sternum and the anterior spine. A Haller Index of 4.2 is reported. What is the diagnosis and surgical indication?",
+        "o": ["Pectus Carinatum; requires external bracing.", "Severe Pectus Excavatum (Haller Index > 3.25 defines severe deformity indicating surgical repair via the minimally invasive Nuss procedure).", "Normal thoracic ratio; no surgery indicated.", "Scoliosis requiring spinal instrumentation."
+        ],
+        "a": 1,
+        "t": "Thoracic Surgery / Chest Deformities",
+        "e": "Pectus Excavatum (funnel chest) is characterized by posterior sternal depression. The Haller Index (transverse diameter divided by anteroposterior diameter on CT) objectively quantifies severity. A normal index is ~2.5. A Haller Index > 3.25 is classified as severe deformity, causing cardiopulmonary compression (right ventricular compromise, restrictive PFT defect) and serving as the primary qualification criterion for surgical repair (the Nuss procedure)."
+    },
+    {
+        "q": "A patient with heart failure and reduced ejection fraction (HFrEF = 25%) undergoes polysomnography. The study reveals a crescendo-decrescendo pattern of tidal volume alternating with central apnea, occurring at a cycle length of 60 to 90 seconds. What is this breathing pattern, and what is its neurological mechanism?",
+        "o": ["Kussmaul breathing; compensation for ketoacidosis.", "Cheyne-Stokes Respiration; driven by prolonged circulation time delaying chemical feedback to hyper-responsive central medullary chemoreceptors.", "Biot's ataxic breathing; direct pontine infarction.", "Apneustic breathing; injury to the pneumotaxic center."
+        ],
+        "a": 1,
+        "t": "Physiology / Cheyne-Stokes Respiration",
+        "e": "Cheyne-Stokes breathing in heart failure is driven by two factors: (1) prolonged circulation time (slow blood transit from lungs to brainstem due to low cardiac output), and (2) increased central chemoreceptor sensitivity. Hyperventilation blows off CO2, driving PaCO2 below the 'apneic threshold' (causing central apnea). As CO2 accumulates, delayed brain detection allows PaCO2 to rise excessively, driving hyperventilation again in a crescendo-decrescendo cycle."
+    },
+    {
+        "q": "A 52-year-old patient with BMI 42 kg/m² presents with daytime somnolence, morning headaches, polycythemia, and awake arterial blood gas showing: pH 7.34, $PaCO_2$ 52 mmHg, $PaO_2$ 58 mmHg, $HCO_3^-$ 28 mEq/L on room air. Nocturnal polysomnography confirms sleep-disordered breathing. What criteria establish Obesity Hypoventilation Syndrome (Pickwickian Syndrome)?",
+        "o": ["BMI $\ge 30\text{ kg/m}^2$, daytime chronic hypercapnia ($PaCO_2 \ge 45\text{ mmHg}$ while awake), and exclusion of other causes of hypoventilation.", "BMI $\ge 25\text{ kg/m}^2$ and nocturnal snoring alone.", "Elevated serum bicarbonate without sleep apnea.", "Asthma combined with obesity."
+        ],
+        "a": 0,
+        "t": "Sleep Disorders / OHS",
+        "e": "Obesity Hypoventilation Syndrome (OHS) is defined by the strict clinical triad of: (1) BMI $\ge 30\text{ kg/m}^2$, (2) chronic awake daytime hypercapnia with $PaCO_2 \ge 45\text{ mmHg}$ at sea level, and (3) exclusion of other neuromuscular, mechanical, or metabolic causes of hypoventilation. The majority (~90%) have co-existing obstructive sleep apnea, but hypoventilation persists during wakefulness."
+    },
+    {
+        "q": "Two hours after sudden aspiration of large-volume acidic gastric contents ($pH < 2.5$) during induction of anesthesia, a patient develops severe hypoxemia, bilateral alveolar infiltrates, tachypnea, and fever. The patient's trachea is clear of food particles. What is the fundamental difference between Aspiration Pneumonitis (Mendelson's syndrome) and Aspiration Pneumonia?",
+        "o": ["Aspiration pneumonitis is a bacterial infection requiring 14 days of IV Vancomycin.", "Aspiration pneumonitis is an acute, chemical burn injury to the alveolar-capillary membrane caused by sterile acidic gastric juice; routine prophylactic antibiotics are NOT indicated and management is purely supportive.", "Aspiration pneumonia occurs within minutes; pneumonitis takes 7 days to manifest.", "Aspiration pneumonitis only occurs in infants."
+        ],
+        "a": 1,
+        "t": "Critical Care / Aspiration Syndromes",
+        "e": "Aspiration pneumonitis (Mendelson's syndrome) is a sterile chemical burn of the tracheobronchial tree and parenchyma caused by inhaling acidic gastric secretions ($pH < 2.5$). It manifests acutely within 2–12 hours with non-cardiogenic pulmonary edema. Prophylactic antibiotics are strictly NOT recommended as the initial insult is non-bacterial. Aspiration pneumonia, by contrast, is an infectious process resulting from aspirating colonized oral secretions, taking 48–72 hours to develop."
+    },
+    {
+        "q": "The American Thoracic Society classifies parapneumonic pleural effusions into three distinct sequential stages. Which stage is characterized by high fibrin deposition, extensive loculations, and viscous pus ('empyema'), where chest tube drainage alone typically fails and intrapleural fibrinolytics (tPA/DNase) or VATS decortication is required?",
+        "o": ["Stage 1: Exudative stage", "Stage 2: Fibrinopurulent stage", "Stage 3: Organizing stage with pleural peel", "Stage 4: Sclerotic calcified stage"
+        ],
+        "a": 1,
+        "t": "Pleural Disease / Empyema Stages",
+        "e": "Empyema evolves through 3 stages: (1) Exudative stage (free-flowing fluid with low WBCs, clears with simple tube thoracostomy); (2) Fibrinopurulent stage (heavy fibrin strands form multiloculated pockets, thick viscous pus, fluid pH < 7.20, low glucose; requires intrapleural tPA/DNase or VATS); and (3) Organizing stage (fibroblasts invade the fibrin, forming an inelastic, thick 'pleural peel' that traps the lung and mandates surgical decortication)."
+    },
+    {
+        "q": "In the landmark MIST-2 randomized trial for pleural empyema, which intrapleural combination therapy significantly improved fluid drainage and reduced the need for surgical decortication compared to placebo?",
+        "o": ["Intrapleural Streptokinase monotherapy", "Intrapleural Tissue Plasminogen Activator (tPA) PLUS recombinant human Deoxyribonuclease (DNase)", "Intrapleural Povidone-Iodine instillation", "Intrapleural Heparin and normal saline flush"
+        ],
+        "a": 1,
+        "t": "Pleural Disease / MIST-2 Trial",
+        "e": "The MIST-2 trial proved that monotherapy with intrapleural tPA or DNase alone was ineffective. However, combined therapy with intrapleural tPA (which breaks down intrapleural fibrin loculations) PLUS intrapleural DNase (which reduces the viscosity of pus by cleaving extracellular DNA from dead neutrophils) significantly improved fluid drainage, cleared chest radiographs, and reduced hospital stays and surgical referrals."
+    },
+    {
+        "q": "A patient with multiple bilateral rib fractures from blunt trauma is managed with Thoracic Epidural Analgesia (TEA) infusing bupivacaine and fentanyl. The nurse assesses for high sympathetic blockade. Blocking which thoracic sympathetic nerve roots ($T_1\text{ to }T_4$) causes loss of cardiac accelerator fibers, resulting in severe bradycardia and hypotension?",
+        "o": ["$T_8\text{ to }T_{10}$", "$T_1\text{ to }T_4$", "$T_6\text{ to }T_8$", "$T_{11}\text{ to }L_1$"],
+        "a": 1,
+        "t": "Pain Management / Thoracic Epidural",
+        "e": "Thoracic epidural analgesia provides superior pain control for rib fractures, preventing splinting, atelectasis, and pneumonia. However, if the local anesthetic spreads cephalad to block the $T_1$ to $T_4$ spinal segments, the cardiac accelerator sympathetic fibers are blocked. This leaves parasympathetic vagal tone completely unopposed, precipitating profound bradycardia, decreased myocardial contractility, and severe arterial vasodilation."
+    },
+    {
+        "q": "A patient with neuromuscular respiratory weakness secondary to Amyotrophic Lateral Sclerosis (ALS) is assessed for cough effectiveness. The nurse measures Peak Cough Flow (PCF) using a peak flow meter. What PCF threshold indicates severe cough impairment, rendering the patient unable to clear secretions and mandating Mechanical Insufflation-Exsufflation (CoughAssist)?",
+        "o": ["$\text{PCF } > 360\text{ L/min}$", "$\text{PCF } < 160\text{ L/min}$ (or $< 270\text{ L/min}$ during respiratory infection)", "$\text{PCF } 250\text{ to }300\text{ L/min}$", "$\text{PCF } > 500\text{ L/min}$"],
+        "a": 1,
+        "t": "Neuromuscular Respiratory / CoughAssist",
+        "e": "Normal Peak Cough Flow in healthy adults is 360 to 1,000 L/min. A PCF < 270 L/min indicates impaired airway clearance during an acute respiratory infection. A PCF < 160 L/min indicates severe, ineffective cough where the patient physically cannot generate enough velocity to clear mucus, predisposing to fatal mucous plugging and respiratory failure. Mechanical Insufflation-Exsufflation (CoughAssist) is mandatory."
+    }
+];
+const rawQuestionsPart2 = [
+    // ==========================================
+    // --- SECTION 3 (CONTINUED): INFECTIONS, PEDIATRICS & PROCEDURAL EMERGENCIES (Q51 - Q60) ---
+    // ==========================================
+    {
+        "q": "A 64-year-old male with small cell lung cancer presents with facial edema, bilateral jugular venous distension with loss of respiratory variation, bilateral upper extremity swelling, and conjunctival suffusion. Arm elevation above the head produces facial cyanosis and progressive lightheadedness within 45 seconds (positive Pemberton's sign). What is the immediate priority intervention for malignant Superior Vena Cava (SVC) Syndrome with laryngeal edema?",
+        "o": [
+            "Immediate oral anticoagulation with high-dose Warfarin.",
+            "Emergency endovascular SVC stenting combined with intravenous Dexamethasone (and urgent radiation/chemotherapy).",
+            "Placement of an emergency transjugular intrahepatic portosystemic shunt (TIPS).",
+            "Continuous bilateral upper extremity compression wrapping."
+        ],
+        "a": 1,
+        "t": "Oncology / Thoracic Emergencies",
+        "e": "Superior Vena Cava (SVC) syndrome caused by mediastinal malignancy obstructing venous return from the upper body is a medical emergency when accompanied by laryngeal edema or cerebral edema. Immediate relief is achieved through endovascular catheter stenting of the obstructed SVC segment (rapid decompression within 24–48 hours) combined with high-dose IV Dexamethasone to reduce tumor-associated edema, followed by urgent chemo/radiation therapy."
+    },
+    {
+        "q": "A patient with Guillain-Barré Syndrome is admitted to the neuro-ICU for monitoring of impending acute respiratory failure. Which pulmonary function testing parameters represent the classic '20/30/40 rule' indicating the need for prophylactic endotracheal intubation?",
+        "o": [
+            "Vital Capacity < 20 mL/kg, Negative Inspiratory Force (NIF) less negative than -30 cmH2O, and Maximum Expiratory Pressure (MEP) < 40 cmH2O.",
+            "Vital Capacity < 30 mL/kg, NIF < -20 cmH2O, and PaCO2 > 40 mmHg.",
+            "Respiratory rate > 20, PaO2 < 30, and FiO2 > 40%.",
+            "Tidal volume < 200 mL, PEEP > 30 cmH2O, and PIP > 40 cmH2O."
+        ],
+        "a": 0,
+        "t": "Neuromuscular Respiratory / Intubation Criteria",
+        "e": "The evidence-based '20/30/40 rule' for elective intubation in neuromuscular respiratory failure (Guillain-Barré, Myasthenia Gravis) is: Forced Vital Capacity (FVC) < 20 mL/kg; Maximum Inspiratory Pressure / Negative Inspiratory Force (MIP/NIF) less negative than -30 cmH2O (e.g., -20 to 0 cmH2O); and Maximum Expiratory Pressure (MEP) < 40 cmH2O. Waiting for hypercapnia or hypoxia to develop leads to emergency crash intubations and cardiac arrest."
+    },
+    {
+        "q": "A critically ill patient intubated for 14 days with an overinflated endotracheal tube cuff (cuff pressure persistently > 45 cmH2O) develops sudden, massive gastric distension on mechanical ventilation. Suctioning of the endotracheal tube yields bile-stained enteral feeding formula. What catastrophic iatrogenic complication has developed?",
+        "o": ["Severe acute aspiration pneumonia without structural damage.", "Acquired Tracheoesophageal Fistula (TEF) secondary to pressure necrosis of the posterior tracheal membrane against a rigid nasogastric tube.", "Rupture of the right mainstem bronchus.", "Zenker's diverticulum perforation."],
+        "a": 1,
+        "t": "Airway Complications / TEF",
+        "e": "Prolonged high ETT cuff pressure (>30 cmH2O) compresses the microvasculature of the tracheal mucosa. When high cuff pressure is compounded by the presence of a rigid, indwelling nasogastric tube in the esophagus, the posterior cartilaginous-free membranous tracheal wall is caught in a mechanical vice. Ischemic necrosis leads to an acquired Tracheoesophageal Fistula (TEF), characterized by positive-pressure ventilation pumping air directly into the stomach and enteral formula flooding into the lungs."
+    },
+    {
+        "q": "A patient undergoes therapeutic thoracentesis for a chronic, large right-sided pleural effusion. Rapid evacuation of 2,200 mL of fluid using high negative-pressure wall suction occurs over 15 minutes. Twenty minutes later, the patient develops severe tachypnea, intractable coughing, and expectorates copious pink, frothy sputum. Auscultation reveals diffuse rales over the RIGHT lung only. What complication is this, and what is its primary pathophysiological driver?",
+        "o": ["Transfusion-related acute lung injury.", "Re-expansion Pulmonary Edema (REPE) caused by alveolar mechanical stress failure, sudden capillary permeability increase, and reperfusion microvascular injury following rapid re-expansion.", "Congestive heart failure secondary to fluid shift.", "Right-to-left intrapulmonary shunt reversal."],
+        "a": 1,
+        "t": "Thoracentesis Complications / REPE",
+        "e": "Re-expansion Pulmonary Edema (REPE) is an acute non-cardiogenic pulmonary edema that develops unilaterally in a chronically collapsed lung following rapid evacuation of large volumes of pleural fluid or air (>1.0 to 1.5 L). Sudden, intense negative intrapleural pressure combined with reperfusion of chronically hypoxic capillary beds causes mechanical alveolar-capillary membrane disruption ('capillary stress failure') and massive inflammatory transudation."
+    },
+    {
+        "q": "A young trauma patient with bilateral pelvic and femur fractures develops acute respiratory distress 48 hours post-injury. The nurse applies Gurd's diagnostic criteria for Fat Embolism Syndrome (FES). Which constellation of findings constitutes the required major criteria under Gurd's system?",
+        "o": ["Hypotension, oliguria, and elevated serum amylase.", "Petechial rash on the anterior chest/axillae, respiratory insufficiency (hypoxemia with PaO2 < 60 mmHg), and non-traumatic central nervous system depression.", "Thrombocytosis, hypercalcemia, and jaundice.", "Bilateral pneumothoraces, fever, and tachycardia."],
+        "a": 1,
+        "t": "Trauma / Fat Embolism Syndrome",
+        "e": "Gurd and Wilson's criteria for Fat Embolism Syndrome mandate the presence of at least ONE major criterion plus four minor criteria (or two major criteria). The three MAJOR criteria are: (1) Axillary or subconjunctival petechial rash; (2) Acute respiratory insufficiency ($PaO_2 < 60\text{ mmHg}$, $FiO_2 > 0.4$); and (3) Cerebral involvement (confusion, coma) unrelated to head injury or drugs."
+    },
+    {
+        "q": "A patient with severe, uncontrolled persistent asthma on maximal pharmacotherapy undergoes Bronchial Thermoplasty. What is the explicit biological tissue target and mechanism of Bronchial Thermoplasty?",
+        "o": ["Cryogenic ablation of parasympathetic cholinergic ganglia in the adventitia.", "Controlled delivery of thermal radiofrequency energy (65°C) to the airway walls during bronchoscopy to selectively ablate and reduce hypertrophied airway smooth muscle (ASM) mass, decreasing bronchoconstrictive potential.", "Surgical excision of the mucosal goblet cells to halt mucus secretion.", "Radiofrequency destruction of circulating IgE receptors."],
+        "a": 1,
+        "t": "Advanced Interventional Pulmonology",
+        "e": "Bronchial Thermoplasty is an interventional bronchoscopic procedure for severe, steroid-resistant asthma. A specialized catheter delivers localized, temperature-controlled radiofrequency electrical energy (heating tissue to 65°C) in a segmental, stepwise fashion to the subsegmental airways. This selectively thins and ablates the hypertrophied airway smooth muscle (ASM) layer, permanently reducing the airway's capacity to contract and bronchospasm."
+    },
+    {
+        "q": "A trekker ascending rapidly to 15,000 feet develops severe High Altitude Pulmonary Edema (HAPE). What is the first-line pharmacotherapeutic agent used for both the prevention and treatment of HAPE when immediate descent is underway or delayed, and what is its physiological target?",
+        "o": ["Oral Furosemide; induces massive renal volume depletion.", "Nifedipine (calcium channel blocker) or Tadalafil (PDE-5 inhibitor); directly inhibits excessive hypoxic pulmonary vasoconstriction, lowering pulmonary arterial pressure.", "Acetazolamide; induces metabolic alkalosis.", "Inhaled Albuterol monotherapy."],
+        "a": 1,
+        "t": "Wilderness Medicine / HAPE Pharmacology",
+        "e": "HAPE is a non-cardiogenic hydrostatic pulmonary edema caused by exaggerated, uneven hypoxic pulmonary vasoconstriction (HPV) leading to pulmonary microvascular hypertension and capillary stress failure. Nifedipine (a dihydropyridine calcium channel blocker) directly relaxes pulmonary vascular smooth muscle, lowering pulmonary artery pressure and capillary hydrostatic pressure. Descent and oxygen are primary; Nifedipine is the first-line medical therapy. (Acetazolamide is for acute mountain sickness/HACE)."
+    },
+    {
+        "q": "Following a surgical tracheostomy, the nurse palpates widespread crepitus across the patient's anterior chest, neck, and face. The patient's eyes are swollen shut with air, and voice is distorted. What clinical condition is present, and what is the primary risk if the subcutaneous air tracks into the deeper mediastinal fascial planes under tension?",
+        "o": ["Severe gas gangrene; immediate hyperbaric oxygen.", "Extensive Subcutaneous Emphysema; risk of tension pneumomediastinum compressing the great veins and trachea, requiring loosening of tracheostomy ties/dressings to allow air to vent.", "Localized allergic reaction to chlorhexidine.", "Rupture of the thoracic duct."],
+        "a": 1,
+        "t": "Surgical Complications / Airway",
+        "e": "Subcutaneous emphysema post-tracheostomy occurs when air leaks around the stoma into the pretracheal fascia and subcutaneous tissues (often exacerbated by tightly packed stomal dressings or tight skin sutures). While subcutaneous air itself is reabsorbed benignly, severe air accumulation can dissect into the mediastinum, causing a 'tension pneumomediastinum' that compresses the superior vena cava and trachea, impairing cardiac venous return."
+    },
+    {
+        "q": "A patient with non-small cell lung cancer is evaluated for radical pneumonectomy. Cardiopulmonary Exercise Testing (CPET) is performed. Which measured parameter is the single most reliable predictor of post-operative cardiopulmonary mortality, where a value < 10 mL/kg/min indicates an unacceptably high risk for surgical resection?",
+        "o": ["Resting arterial oxygen saturation ($SpO_2$)", "Maximal Oxygen Consumption ($\text{VO}_2\text{ max}$ / Peak $\text{VO}_2$)", "Diffusing capacity of the lung for carbon monoxide alone", "Resting heart rate variability"],
+        "a": 1,
+        "t": "Thoracic Surgery / Pre-Op Risk Stratification",
+        "e": "Cardiopulmonary Exercise Testing (CPET) measuring Peak Oxygen Uptake ($\text{VO}_2\text{ max}$) is the gold standard for assessing physiological operability before major lung resection. A Peak $\text{VO}_2 > 20\text{ mL/kg/min}$ indicates low post-operative mortality; a Peak $\text{VO}_2 < 10\text{ mL/kg/min}$ (or < 35% predicted) represents prohibitive surgical risk with perioperative mortality exceeding 25–30%, ruling out major anatomical lung resection."
+    },
+    {
+        "q": "The intensivist performs a point-of-care laryngeal ultrasound prior to extubating a critical care patient to assess for post-extubation laryngeal edema. What ultrasonic anatomical measurement is quantified during this evaluation?",
+        "o": ["Thickness of the platysma muscle.", "Air Column Width Difference (ACWD) measured at the level of the vocal cords with the endotracheal tube cuff inflated versus deflated.", "Diameter of the internal jugular vein.", "Distance from the cricoid cartilage to the carina."],
+        "a": 1,
+        "t": "Point-of-Care Ultrasound / Airway",
+        "e": "Laryngeal ultrasound is an accurate non-invasive surrogate for the cuff leak test. By placing the linear probe over the thyroid cartilage, the width of the acoustic shadow cast by the air column within the larynx is measured. The Air Column Width Difference (ACWD) is calculated as: $\text{Width with cuff deflated} - \text{Width with cuff inflated}$. An ACWD < 0.9 to 1.0 mm indicates significant laryngeal edema and accurately predicts post-extubation stridor."
+    },
+
+    // ==========================================
+    // --- SECTION 4: RARE LUNG DISEASES, SYSTEMIC PATHOLOGY & DIAGNOSTICS (Q61 - Q80) ---
+    // ==========================================
+    {
+        "q": "A 12-year-old child with Cystic Fibrosis has confirmed homozygous F508del CFTR mutations. The pediatric pulmonologist initiates Trikafta (Elexacaftor / Tezacaftor / Ivacaftor). What is the functional pharmacological role of the 'correctors' (Elexacaftor/Tezacaftor) versus the 'potentiator' (Ivacaftor)?",
+        "o": ["Correctors kill Pseudomonas bacteria; potentiators act as mucolytics.", "Correctors act as molecular chaperones that facilitate the proper intracellular folding and trafficking of the mutated F508del protein to the cell membrane; the potentiator locks the CFTR channel gate open at the cell surface to maximize chloride ion transport.", "Correctors inhibit ENaC channels; potentiators stimulate sodium excretion.", "Correctors promote gene transcription; potentiators promote ribosomal translation."],
+        "a": 1,
+        "t": "Pharmacology / Cystic Fibrosis",
+        "e": "The F508del mutation causes defective CFTR protein folding, targeted for premature proteasomal degradation (trafficking failure). Elexacaftor and Tezacaftor are 'correctors'—small molecules that bind mutated CFTR, correcting misfolding and chaperoning the protein to the apical membrane. Ivacaftor is a 'potentiator' that binds the channel at the membrane surface, increasing its open-probability (gating) to restore chloride and bicarbonate transport."
+    },
+    {
+        "q": "A patient with breast cancer who completed definitive thoracic radiation therapy 3 months ago presents with dry cough, low-grade fever, and pleuritic chest pain. Chest CT reveals non-anatomical alveolar opacities with dense consolidation and air bronchograms that conform strictly to the geometric boundaries of the previous radiation treatment portal ('straight-line sign'). Diagnosis and first-line treatment?",
+        "o": ["Acute bacterial pneumonia; Vancomycin.", "Acute Radiation Pneumonitis; high-dose systemic Corticosteroids (Prednisone 1 mg/kg/day with slow taper over several weeks).", "Pulmonary embolism; therapeutic Enoxaparin.", "Lymphangitic carcinomatosis; palliative chemotherapy."],
+        "a": 1,
+        "t": "Thoracic Oncology / Radiation Complications",
+        "e": "Acute Radiation Pneumonitis occurs 1 to 6 months post-radiotherapy. The hallmark radiological finding is parenchymal consolidation conforming strictly to the geometric radiotherapy field ('straight edge' or 'sharp margin' demarcating treated vs untreated lung). First-line therapy is high-dose systemic Corticosteroids tapered slowly over 4–8 weeks; abrupt discontinuation causes severe, rebound inflammatory flare-ups."
+    },
+    {
+        "q": "A 48-year-old female presents with subacute flu-like illness, bilateral patchy consolidations, and mild restrictive defect. Chest HRCT reveals central ground-glass opacities surrounded by a dense, complete or crescentic ring of consolidation (the 'Reverse Halo Sign' or 'Atoll Sign'). Biopsy demonstrates polypoid plugs of loose organizing connective tissue within the alveoli and respiratory bronchioles (Masson bodies). Diagnosis?",
+        "o": ["Invasive Pulmonary Aspergillosis", "Cryptogenic Organizing Pneumonia (COP / BOOP)", "Desquamative Interstitial Pneumonia", "Sarcoidosis"],
+        "a": 1,
+        "t": "Interstitial Lung Disease / COP",
+        "e": "Cryptogenic Organizing Pneumonia (COP, formerly Bronchiolitis Obliterans Organizing Pneumonia [BOOP]) is characterized histologically by intraluminal plugs of organizing connective tissue (fibroblasts and myofibroblasts) in alveolar ducts and spaces (Masson bodies). The 'Reverse Halo' or 'Atoll Sign' (central ground-glass surrounded by a dense perimeter of consolidation) on HRCT is strongly suggestive of COP and shows dramatic responsiveness to oral corticosteroids."
+    },
+    {
+        "q": "A 40-year-old patient with severe adult-onset asthma, chronic rhinosinusitis with nasal polyps, and recurrent allergic sinusitis presents with wrist drop (mononeuritis multiplex) and purpuric skin lesions. Complete blood count shows absolute eosinophil count of 4,200/μL (35% of total WBC). Perinuclear ANCA (anti-MPO) is positive. What necrotizing vasculitis is this?",
+        "o": ["Granulomatosis with Polyangiitis (GPA)", "Eosinophilic Granulomatosis with Polyangiitis (EGPA / Churg-Strauss Syndrome)", "Microscopic Polyangiitis", "Polyarteritis Nodosa"],
+        "a": 1,
+        "t": "Systemic Vasculitis / EGPA",
+        "e": "Eosinophilic Granulomatosis with Polyangiitis (EGPA / Churg-Strauss) is a necrotizing small-to-medium vessel vasculitis characterized by: (1) severe asthma and allergic rhinitis, (2) marked peripheral eosinophilia (>1,500/μL or >10%), and (3) systemic vasculitis, commonly presenting as mononeuritis multiplex (foot/wrist drop), purpura, pulmonary infiltrates, and cardiomyopathy. It is p-ANCA (anti-MPO) positive in ~50% of cases."
+    },
+    {
+        "q": "A dairy farmer presents with acute dyspnea, fever, chills, and bilateral fine end-inspiratory crackles 6 hours after pitching moldy, decomposing hay in an enclosed barn. Bronchoalveolar lavage (BAL) reveals marked lymphocytosis (>50%) with a CD4+ to CD8+ T-cell ratio of 0.5 (reversed/inverted). What is the causative microbiological antigen in classic Farmer's Lung?",
+        "o": ["Aspergillus fumigatus", "Saccharopolyspora rectivirgula (formerly Micropolyspora faeni) and Thermoactinomyces vulgaris", "Mycobacterium avium complex", "Stachybotrys chartarum"],
+        "a": 1,
+        "t": "Hypersensitivity Pneumonitis / Farmer's Lung",
+        "e": "Farmer's Lung is an occupational hypersensitivity pneumonitis (extrinsic allergic alveolitis) triggered by inhaling thermophilic actinomycetes—specifically Saccharopolyspora rectivirgula (Micropolyspora faeni)—which proliferate in warm, moldy, damp hay (stored at 50–60°C). Immune-complex (Type III) and cell-mediated (Type IV) hypersensitivity produces intense lymphocytic alveolitis characteristically marked by an inverted CD4/CD8 ratio (<1.0) on BAL."
+    },
+    {
+        "q": "A 55-year-old coal miner with severe joint pain, swelling, and subcutaneous rheumatoid nodules undergoes routine surveillance chest radiography. The radiograph demonstrates multiple round, discrete, well-defined peripheral nodules measuring 1 to 5 cm distributed bilaterally, superimposed on mild background coal dust macules. Rheumatoid factor and anti-CCP antibodies are strongly positive. What eponym defines this syndrome?",
+        "o": ["Caplan's Syndrome (Rheumatoid Pneumoconiosis)", "Felty's Syndrome", "Lofgren's Syndrome", "Goodpasture's Syndrome"],
+        "a": 0,
+        "t": "Occupational Lung Disease / Caplan's",
+        "e": "Caplan's Syndrome (Rheumatoid Pneumoconiosis) is the combination of Rheumatoid Arthritis with pneumoconiosis (classically in coal miners, silicosis, or asbestosis). Inhalation of mineral dust triggers an exaggerated immunological reaction in individuals genetically predisposed to rheumatoid disease, producing rapid development of multiple bilateral necrobiotic pulmonary nodules that histologically resemble subcutaneous rheumatoid nodules."
+    },
+    {
+        "q": "An aerospace machine-tool worker who machines beryllium-copper alloys presents with progressive dyspnea, dry cough, and bilateral non-caseating granulomas on transbronchial biopsy that mimic sarcoidosis. What specific blood and BAL immunological test is diagnostic for Chronic Beryllium Disease (CBD)?",
+        "o": ["Serum Angiotensin-Converting Enzyme (ACE) assay", "Beryllium Lymphocyte Proliferation Test (BeLPT)", "QuantiFERON-TB Gold Plus", "Serum copper and ceruloplasmin"],
+        "a": 1,
+        "t": "Occupational Disease / Berylliosis",
+        "e": "Chronic Beryllium Disease (CBD) is an occupational granulomatous lung disease caused by cell-mediated hypersensitivity to beryllium metal used in aerospace, ceramics, and electronics. Clinically and radiologically, it is indistinguishable from Sarcoidosis. The diagnostic gold standard is the Beryllium Lymphocyte Proliferation Test (BeLPT), which measures in vitro memory T-cell proliferation in response to beryllium exposure in blood and BAL."
+    },
+    {
+        "q": "A 7-year-old child presents with recurrent episodes of hemoptysis, chronic microcytic hypochromic iron deficiency anemia, and bilateral alveolar infiltrates. Comprehensive serological workup (ANCA, Anti-GBM, ANA, anti-transglutaminase) is completely negative. Bronchoalveolar lavage (BAL) reveals sheets of hemosiderin-laden alveolar macrophages ('siderophages') stained with Prussian blue. What rare diagnosis is confirmed?",
+        "o": ["Systemic lupus erythematosus", "Idiopathic Pulmonary Hemosiderosis (IPH / Ceelen-Gellerstedt syndrome)", "Wegener's granulomatosis", "Pulmonary sequestration"],
+        "a": 1,
+        "t": "Rare Pediatric Lung Diseases / IPH",
+        "e": "Idiopathic Pulmonary Hemosiderosis (IPH) is a rare disorder of unknown etiology predominantly affecting children. It is characterized by the classic clinical triad of: (1) hemoptysis, (2) iron deficiency anemia (refractory to oral iron because iron is sequestered in alveolar macrophages), and (3) diffuse pulmonary infiltrates. Confirmation requires hemosiderin-laden macrophages on BAL with rigorous exclusion of renal disease, vasculitis, and immune complexes."
+    },
+    {
+        "q": "A patient from a sheep-raising region presents with cough and hemoptysis. Chest CT reveals a well-defined, thick-walled fluid cyst in the right lower lobe containing collapsed, floating undulating membranes floating on top of the fluid ('Water-Lily Sign' or 'Camoise sign'). What is the diagnosis and the critical intraoperative risk during surgical excision?",
+        "o": ["Bronchogenic cyst; hemorrhage.", "Pulmonary Hydatid Cyst (Echinococcus granulosus); intraoperative rupture of the hydatid cyst can trigger catastrophic, fatal systemic anaphylactic shock and secondary pleural echinococcosis.", "Lung abscess; empyema.", "Aspergilloma; massive hemoptysis."],
+        "a": 1,
+        "t": "Parasitic Pulmonary Disease / Hydatid Cyst",
+        "e": "Pulmonary Hydatid Disease is caused by the larval stage of Echinococcus granulosus (tapeworm). The 'water-lily sign' occurs when the endocyst ruptures and collapses, floating within the remaining fluid cavity like a lily pad. During surgical cystectomy, extreme care is taken to avoid puncturing or spilling cyst fluid; hydatid fluid contains high concentrations of foreign antigens that cause life-threatening anaphylactic shock and disseminate thousands of scolicides."
+    },
+    {
+        "q": "A retired brake-lining mechanic with a 40-year history of asbestos exposure presents with unremitting left-sided chest wall pain, weight loss, and an extensive pleural rind encasing the entire left hemithorax with volume contraction. Pleural biopsy immunohistochemistry reveals calretinin and Wilms Tumor 1 (WT-1) positivity. What is the diagnosis?",
+        "o": ["Malignant Pleural Mesothelioma", "Bronchogenic Squamous Cell Carcinoma", "Pleural liposarcoma", "Metastatic renal cell carcinoma"],
+        "a": 0,
+        "t": "Thoracic Oncology / Mesothelioma",
+        "e": "Malignant Pleural Mesothelioma is an aggressive neoplasm of the mesothelial surface strongly linked to commercial asbestos exposure (crocidolite/chrysotile) with a long latency period (30–50 years). CT characteristically demonstrates nodular pleural thickening and an encasing 'pleural rind' that shrinks the hemithorax. Calretinin, WT-1, and cytokeratin 5/6 positivity are classic diagnostic immunohistochemical markers."
+    },
+    {
+        "q": "A patient with severe end-stage liver cirrhosis presents with resting dyspnea that worsens dramatically when moving from a lying-down position to an upright sitting position (Platypnea), accompanied by an arterial oxygen saturation drop from 94% supine to 81% upright (Orthodeoxia). Agitated saline contrast echocardiography demonstrates microbubbles appearing in the left atrium 4 to 6 cardiac cycles after entering the right atrium. Diagnosis?",
+        "o": ["Patent Foramen Ovale (PFO)", "Hepatopulmonary Syndrome (HPS)", "Portopulmonary Hypertension", "Hepatic hydrothorax"],
+        "a": 1,
+        "t": "Hepatopulmonary Physiology / HPS",
+        "e": "Hepatopulmonary Syndrome (HPS) is defined by the triad of: (1) liver disease/cirrhosis, (2) arterial hypoxemia, and (3) Intrapulmonary Vascular Dilatations (IPVDs). Gravity forces blood to pool through the massively dilated lower-lobe pulmonary capillaries when sitting upright, worsening shunt/diffusion limitation (platypnea-orthodeoxia). Agitated saline bubbles traversing the pulmonary bed appear in the left heart after 3–6 cycles (confirming transpulmonary dilation, unlike an intracardiac shunt which appears in 1–2 cycles)."
+    },
+    {
+        "q": "A liver transplant candidate with cirrhosis undergoes pre-operative screening. Right heart catheterization reveals a Mean Pulmonary Artery Pressure (mPAP) of 48 mmHg, a Pulmonary Capillary Wedge Pressure (PCWP) of 10 mmHg, and a Pulmonary Vascular Resistance (PVR) of 380 dynes·s/cm⁵. What diagnosis is established, and why is this condition a potential absolute contraindication to liver transplantation?",
+        "o": ["Hepatopulmonary Syndrome; no contraindication.", "Portopulmonary Hypertension (PoPH); severe uncontrolled PoPH (mPAP > 45–50 mmHg) carries a >50% to 100% intraoperative mortality rate from acute right ventricular failure upon reperfusion of the donor liver graft.", "Cor Pulmonale secondary to COPD; proceed with surgery.", "Cardiogenic pulmonary edema secondary to left heart failure."],
+        "a": 1,
+        "t": "Cardiopulmonary Disease / PoPH",
+        "e": "Portopulmonary Hypertension (PoPH) is defined as pulmonary arterial hypertension (mPAP > 20 mmHg, PCWP ≤ 15 mmHg, PVR ≥ 240 dynes·s/cm⁵) in the setting of portal hypertension. When mPAP is severely elevated (>45–50 mmHg) and non-responsive to pulmonary vasodilators, liver transplantation is ABSOLUTELY CONTRAINDICATED because the sudden surge in venous return upon unclamping the graft triggers acute right ventricular failure and fatal intraoperative arrest."
+    },
+    {
+        "q": "A 28-year-old female presents with an asymptomatic, completely normal physical exam, but a routine chest radiograph reveals diffuse, bilateral, dense sand-like calcific micro-nodules filling both lungs ('sandstorm' appearance) with prominent subpleural black lines. Genetic sequencing reveals a homozygous loss-of-function mutation in the SLC34A2 gene. What is this rare metabolic disorder?",
+        "o": ["Miliary Tuberculosis", "Pulmonary Alveolar Microlithiasis (PAM)", "Alveolar Proteinosis", "Silicosis"],
+        "a": 1,
+        "t": "Rare Lung Diseases / PAM",
+        "e": "Pulmonary Alveolar Microlithiasis (PAM) is a rare autosomal recessive disorder caused by mutations in the SLC34A2 gene, which encodes the type IIb sodium-phosphate cotransporter in alveolar type II pneumocytes. When phosphate cannot be cleared from alveolar fluid, it binds calcium, creating millions of microscopic intra-alveolar calcospherites ('microliths'). The chest radiograph shows striking, dense calcification ('sandstorm lung') despite minimal early symptoms."
+    },
+    {
+        "q": "A patient with refractory chronic cough and dyspnea undergoes dynamic expiratory computed tomography and flexible bronchoscopy. During forced expiration, the posterior membranous tracheal wall bulges anteriorly, reducing the cross-sectional tracheal lumen diameter by 85%. What is the diagnosis and initial non-surgical pneumatic splinting therapy?",
+        "o": ["Tracheobronchomalacia (TBM); Continuous Positive Airway Pressure (CPAP)", "Tracheal stenosis; laser ablation", "Relapsing polychondritis; high-dose antibiotics", "Vocal cord dysfunction; speech therapy"],
+        "a": 0,
+        "t": "Airway Pathology / TBM",
+        "e": "Tracheobronchomalacia (TBM) is characterized by weakness of the cartilaginous tracheal rings and laxity of the posterior membranous wall, leading to dynamic expiratory airway collapse (>50% luminal reduction on forced expiration or coughing). Continuous Positive Airway Pressure (CPAP or BiPAP) acts as an internal 'pneumatic splint', keeping the compliant airway walls forced open during exhalation to alleviate coughing and dynamic obstruction."
+    },
+    {
+        "q": "A 42-year-old female presents with recurrent, painful swelling and erythema of the auricular cartilage of both ears that strictly spares the non-cartilaginous ear lobes, accompanied by saddle-nose deformity and hoarseness. What autoimmune disease is this, and what is the leading cause of death in these patients?",
+        "o": ["Granulomatosis with polyangiitis; renal failure.", "Relapsing Polychondritis; dynamic airway collapse and asphyxiation secondary to progressive tracheobronchial cartilage destruction.", "Systemic lupus erythematosus; pericarditis.", "Cricoarytenoid rheumatoid arthritis; vocal cord nodules."],
+        "a": 1,
+        "t": "Systemic Autoimmune / Relapsing Polychondritis",
+        "e": "Relapsing Polychondritis is an episodic autoimmune disease targeting cartilaginous structures. A classic physical diagnostic clue is auricular chondritis that SPARES the ear lobule (because the lobule contains only fat, not cartilage). The most lethal and morbid complication is destruction of the cartilaginous structural rings of the larynx and tracheobronchial tree, causing dynamic tracheal collapse, suffocating stenosis, and fatal airway obstruction."
+    },
+    {
+        "q": "A chest radiograph and CT scan in a young asymptomatic adult identify a mass of non-functioning, non-aerated embryonic lung tissue in the left lower hemithorax that lacks any connection to the normal tracheobronchial tree. Angiography proves that its arterial blood supply arises aberrantly and directly from the descending thoracic aorta. What congenital malformation is this?",
+        "o": ["Congenital Cystic Adenomatoid Malformation (CPAM)", "Bronchopulmonary Sequestration (BPS)", "Congenital lobar emphysema", "Bronchogenic cyst"],
+        "a": 1,
+        "t": "Congenital Malformations / Sequestration",
+        "e": "Bronchopulmonary Sequestration (BPS) is a congenital anomaly where a mass of non-functional, disorganized embryonic lung tissue develops with two defining features: (1) it does NOT communicate with the normal tracheobronchial tree, and (2) it receives an anomalous systemic arterial blood supply directly from the aorta or its branches (rather than the pulmonary artery). It can be intralobar (within visceral pleura) or extralobar (with its own pleural envelope)."
+    },
+    {
+        "q": "A 19-year-old male with a history of severe adenovirus bronchiolitis in infancy presents with recurrent infections. Chest radiography reveals a unilaterally hyperlucent, small left lung with prominent air-trapping on expiration, and CT angiography demonstrates marked hypoplasia of the left pulmonary artery. What post-infectious pediatric syndrome is this?",
+        "o": ["Kartagener Syndrome", "Swyer-James-MacLeod Syndrome", "Scimitar Syndrome", "Poland Syndrome"],
+        "a": 1,
+        "t": "Pediatric Sequelae / Swyer-James",
+        "e": "Swyer-James-MacLeod Syndrome is a long-term post-infectious sequela of severe childhood bronchiolitis or pneumonia (typically Adenovirus, Measles, or RSV). Obliterative bronchiolitis causes chronic air trapping; the resulting alveolar hypoventilation causes reflex chronic hypoxic pulmonary vasoconstriction, which arrests the development of the ipsilateral pulmonary artery, creating a classic unilateral hyperlucent, hypoplastic lung on imaging."
+    },
+    {
+        "q": "A 22-year-old male presents with recurrent sinusitis, bronchiectasis, and complete dextrocardia with abdominal organ transposition on imaging (situs inversus totalis). What genetic syndrome is this, and what structural defect is identified on electron microscopy of respiratory cilia?",
+        "o": ["Cystic Fibrosis; absent chloride channels.", "Kartagener Syndrome (Primary Ciliary Dyskinesia); absence or truncation of inner and/or outer Dynein Arms in the 9+2 microtubular axoneme.", "Young Syndrome; azoospermia with normal cilia.", "Alpha-1 antitrypsin deficiency; elastase excess."],
+        "a": 1,
+        "t": "Genetic Ciliopathies / Kartagener Syndrome",
+        "e": "Kartagener Syndrome is a subgroup of Primary Ciliary Dyskinesia (PCD) characterized by the clinical triad of: (1) situs inversus totalis, (2) chronic bronchiectasis, and (3) chronic sinusitis. It is caused by genetic defects in the ciliary motor apparatus—most commonly loss of the inner and outer Dynein arms within the microtubular ciliary axoneme, rendering respiratory cilia and sperm flagella completely immotile."
+    },
+    {
+        "q": "A patient with confirmed severe Alpha-1 Antitrypsin Deficiency (phenotype Pi*ZZ) with baseline FEV1 of 45% is initiated on weekly intravenous human alpha-1 proteinase inhibitor (Zemaira / Prolastin-C). What is the evidence-based therapeutic endpoint and physiological benefit of chronic intravenous AAT augmentation therapy?",
+        "o": ["Immediate and complete reversal of existing panacinar emphysematous tissue destruction.", "Slowing the accelerated rate of lung density decline (loss of lung tissue quantified by CT densitometry) and slowing annual FEV1 decline.", "Eradication of Pseudomonas colonization from the airway.", "Permanent suppression of hepatic Z-protein polymerization."],
+        "a": 1,
+        "t": "Pharmacology / AAT Augmentation",
+        "e": "Alpha-1 Antitrypsin (AAT) augmentation therapy delivers pooled, purified human plasma-derived AAT weekly to raise serum and alveolar levels above the protective threshold (>11 μmol/L). Clinical trials (RAPID trial) prove that augmentation therapy CANNOT reverse already destroyed emphysematous lung architecture; its proven therapeutic benefit is significantly slowing the progression of lung tissue loss (measured by quantitative CT lung densitometry) and reducing annual FEV1 loss."
+    },
+    {
+        "q": "A patient with non-massive, subacute persistent hemoptysis secondary to bronchiectasis is prescribed inhaled nebulized Tranexamic Acid (TXA). What is the pharmacological mechanism of Tranexamic Acid in controlling mucosal bleeding?",
+        "o": ["Direct activation of the extrinsic coagulation cascade via Factor VIIa stimulation.", "Competitive inhibition of plasminogen activation to plasmin, preventing fibrin degradation and stabilizing blood clots in the mucosal microvasculature.", "Intense alpha-1 vasoconstriction of the bronchial arterioles.", "Direct chemical cauterization of the bronchial epithelium."],
+        "a": 1,
+        "t": "Pharmacology / Hemostasis",
+        "e": "Tranexamic acid (TXA) is a synthetic lysine-analogue antifibrinolytic. It competitively blocks the lysine-binding sites on plasminogen molecules, preventing plasminogen from binding to fibrin and converting to plasmin. This halts the enzymatic breakdown of fibrin clots (fibrinolysis), stabilizing local hemostatic clots on bleeding bronchial mucosal ulcerations."
+    },
+
+    // ==========================================
+    // --- SECTION 5: ADVANCED PROCEDURES, RESCUE THERAPIES & AIRWAY DISASTERS (Q81 - Q100) ---
+    // ==========================================
+    {
+        "q": "A patient with massive hemoptysis is scheduled for emergency Bronchial Artery Embolization (BAE). During superselective bronchial arteriography, the interventional radiologist must meticulously identify and spare which critical spinal vessel to prevent irreversible paraplegia?",
+        "o": ["The Posterior Communicating Artery", "The Anterior Spinal Artery / Great Radiculomedullary Artery (Artery of Adamkiewicz)", "The Vertebral Artery", "The Internal Thoracic Artery"],
+        "a": 1,
+        "t": "Interventional Pulmonology / Complications",
+        "e": "Bronchial arteries (especially right-sided or intercostobronchial trunks) frequently share an aberrant common origin with radicular spinal arteries. The Great Radiculomedullary Artery (Artery of Adamkiewicz) provides the primary blood supply to the lower two-thirds of the spinal cord. Inadvertent particulate embolization into this vessel causes acute anterior spinal cord infarction and permanent, irreversible paraplegia."
+    },
+    {
+        "q": "A patient with an acute, large bronchopleural fistula (BPF) following lung surgery cannot be ventilated because 70% of the tidal volume escapes through the chest tube into the drainage canister. The team institutes Independent Lung Ventilation (ILV). How is ILV executed?",
+        "o": ["Placement of two separate tracheostomy tubes in the neck.", "Intubation with a Left-sided Double-Lumen Endotracheal Tube (DLT), isolating both lungs, with each lung connected to its own separate, dedicated mechanical ventilator set to different synchronized modes and pressures.", "Continuous negative-pressure cuirass ventilation applied to the chest wall.", "Oscillation of the chest tube drainage line."],
+        "a": 1,
+        "t": "Critical Care / Independent Lung Ventilation",
+        "e": "Independent Lung Ventilation (ILV) is the definitive rescue strategy for severe unilateral lung pathology (massive BPF, unilateral contusion). A Double-Lumen Tube (DLT) is placed, completely anatomically and mechanically isolating the right and left lungs. Two separate synchronized ventilators are connected: the healthy lung receives conventional lung-protective ventilation, while the diseased/BPF lung receives low-pressure, low-volume, or CPAP ventilation to allow the fistula to close."
+    },
+    {
+        "q": "During rapid sequence intubation (RSI) in the ICU, the clinician encounters a 'Cannot Intubate, Cannot Oxygenate' (CICO) crisis. Bag-valve-mask, video laryngoscopy, and supraglottic airway (LMA) have all failed. SpO2 is 60% and falling. In accordance with Difficult Airway Society (DAS) guidelines, what is the mandatory immediate surgical airway procedure?",
+        "o": ["Emergent needle thoracostomy in the second intercostal space.", "Emergency surgical Scalpel-Bougie-Tube Cricothyroidotomy (horizontal stab through the cricothyroid membrane, bougie insertion, railroad a size 6.0 cuffed tube).", "Awake fiberoptic nasotracheal bronchoscopy.", "Percutaneous dilatational tracheostomy under ultrasound guidance."],
+        "a": 1,
+        "t": "Airway Emergencies / CICO Protocol",
+        "e": "The final step of the Difficult Airway Society (DAS) algorithm for a CICO crisis is emergency 'front-of-neck access' (FONA). The preferred evidence-based technique is the Scalpel-Bougie-Tube technique: (1) transverse incision through the cricothyroid membrane, (2) rotate scalpel 90 degrees or dilate with finger, (3) pass an angled-tip tracheal bougie into the trachea, and (4) railroad a cuffed endotracheal tube (size 5.0–6.0 mm) over the bougie directly into the trachea."
+    },
+    {
+        "q": "A patient with ankylosing spondylitis and a completely rigid, fused cervical spine requires urgent endotracheal intubation. The anesthesiologist elects to perform an Awake Fiberoptic Intubation (AFOI). Which regional nerve block can the nurse assist with to completely anesthetize the sensory innervation of the vocal cords and trachea?",
+        "o": ["Sphenopalatine ganglion block", "Translaryngeal (Transtracheal) injection of 4 mL 2% Lidocaine through the cricothyroid membrane, and bilateral Superior Laryngeal Nerve blocks", "Stellate ganglion block", "Interscalene brachial plexus block"],
+        "a": 1,
+        "t": "Advanced Airway / Regional Anesthesia",
+        "e": "Awake fiberoptic intubation requires complete topical and regional airway anesthesia while the patient remains spontaneously breathing. Bilateral Superior Laryngeal Nerve blocks (at the greater cornu of the hyoid bone) abolish the gag and glottic closure reflex down to the vocal cords. Translaryngeal injection of 4 mL of 2% or 4% Lidocaine through the cricothyroid membrane triggers a cough that atomizes the anesthetic onto the vocal cords and trachea, completely numbing the subglottic tree."
+    },
+    {
+        "q": "Within 48 hours following an uncomplicated left pneumonectomy, the patient develops progressive hypoxemia, bilateral fluffy infiltrates on the remaining lung, and elevated CVP. The patient received 4.5 liters of crystalloids intraoperatively. What catastrophic post-resection syndrome is this?",
+        "o": ["Transfusion-associated graft-versus-host disease", "Post-Pneumonectomy Pulmonary Edema (PPPE) secondary to microvascular hyperfiltration and lymphatic disruption in the single remaining lung.", "Bronchial stump rupture", "Cardiac herniation"],
+        "a": 1,
+        "t": "Thoracic Surgery / Post-Op Critical Care",
+        "e": "Post-Pneumonectomy Pulmonary Edema (PPPE) is a lethal non-cardiogenic pulmonary edema occurring in 2–5% of patients within 24–72 hours post-pneumonectomy. Because the entire right ventricular cardiac output is forced through the single remaining lung, pulmonary microvascular hydrostatic pressure spikes, and lymphatic drainage is severed. Fluid overload is the major trigger; post-pneumonectomy patients must be managed on strict fluid restriction (<20 mL/kg/24 hr)."
+    },
+    {
+        "q": "A patient with non-small cell lung cancer is undergoing mediastinal lymph node staging via Endobronchial Ultrasound-guided Transbronchial Needle Aspiration (EBUS-TBNA). Which critical subcarinal lymph node station located directly beneath the tracheal bifurcation is routinely sampled by EBUS?",
+        "o": ["Station 1 (Low cervical)", "Station 7 (Subcarinal lymph nodes)", "Station 5 (Subaortic / AP window)", "Station 9 (Pulmonary ligament nodes)"],
+        "a": 1,
+        "t": "Thoracic Oncology / Mediastinal Staging",
+        "e": "In the International Association for the Study of Lung Cancer (IASLC) lymph node map, Station 7 represents the Subcarinal lymph nodes situated directly inferior to the carina of the trachea between the right and left mainstem bronchi. EBUS-TBNA provides direct real-time ultrasound guidance to needle-aspirate Station 7 nodes through the tracheobronchial wall for accurate cancer staging."
+    },
+    {
+        "q": "A patient with a Pancoast tumor (Superior Pulmonary Sulcus tumor) of the right lung apex presents with ptosis, miosis, anhidrosis, and apparent enophthalmos on the right side of the face. What anatomical neural structure is compressed by the tumor to produce Horner's Syndrome?",
+        "o": ["The Phrenic nerve", "The Cervicothoracic (Stellate) Sympathetic Ganglion / sympathetic trunk", "The Vagus nerve", "The Recurrent laryngeal nerve"],
+        "a": 1,
+        "t": "Thoracic Oncology / Horner's Syndrome",
+        "e": "Horner's Syndrome (ipsilateral ptosis [drooping eyelid], miosis [constricted pupil], and anhidrosis [loss of facial sweating]) is caused by tumor invasion or compression of the Paravertebral Sympathetic Chain and the Cervicothoracic (Stellate) Ganglion located at the base of the neck/apex of the thorax. Pancoast tumors also frequently compress the C8-T1 nerve roots, causing severe radiating arm pain along the ulnar nerve distribution."
+    },
+    {
+        "q": "A patient with a typical bronchial carcinoid tumor is scheduled for surgical resection. During preoperative induction, the patient develops flushing, bronchospasm, and sudden profound hypotension. What medication MUST be immediately administered as a continuous IV infusion to block this acute Carcinoid Crisis?",
+        "o": ["Epinephrine bolus", "Octreotide (somatostatin analog) 500 to 1,000 mcg IV bolus followed by continuous infusion", "Norepinephrine infusion", "Atropine sulfate"],
+        "a": 1,
+        "t": "Thoracic Oncology / Carcinoid Crisis",
+        "e": "A Carcinoid Crisis is an acute, life-threatening release of massive quantities of vasoactive peptides (serotonin, bradykinin, histamines) triggered by anesthesia, tumor manipulation, or stress. Administering adrenergic agonists (like Epinephrine or Norepinephrine) stimulates tumor receptors to paradoxically release MORE peptides, worsening shock. High-dose Octreotide (a synthetic somatostatin analog) is the specific antidote that binds somatostatin receptors on neuroendocrine tumor cells, halting mediator release."
+    },
+    {
+        "q": "A patient undergoes diagnostic flexible bronchoscopy with Bronchoalveolar Lavage (BAL) for suspected interstitial lung disease. The BAL differential count reveals 45% lymphocytes with a CD4+ to CD8+ ratio of 4.2:1. What disease does a high BAL CD4/CD8 ratio (> 3.5:1) strongly support?",
+        "o": ["Hypersensitivity pneumonitis", "Pulmonary Sarcoidosis", "Pneumocystis jirovecii pneumonia", "Idiopathic pulmonary fibrosis"],
+        "a": 1,
+        "t": "Diagnostics / Bronchoalveolar Lavage",
+        "e": "Bronchoalveolar lavage (BAL) lymphocyte immunophenotyping is a valuable diagnostic tool. In Pulmonary Sarcoidosis, an exaggerated Th1-mediated helper T-cell response recruits massive CD4+ lymphocytes into the lungs, producing a characteristically elevated CD4/CD8 ratio > 3.5:1 (present in >60% of active cases). In contrast, Hypersensitivity Pneumonitis and drug reactions typically demonstrate a low, inverted CD4/CD8 ratio (< 1.0) with cytotoxic CD8+ predominance."
+    },
+    {
+        "q": "A patient with suspected asthma and normal baseline spirometry undergoes a Bronchoprovocation Challenge with Methacholine. What is the diagnostic criterion indicating a 'positive' methacholine challenge confirming bronchial hyperresponsiveness?",
+        "o": ["A drop in Forced Vital Capacity (FVC) by 10%.", "A fall in FEV1 by >= 20% from baseline at a Provocative Concentration (PC20) <= 8 mg/mL (or <= 16 mg/mL).", "A rise in Peak Expiratory Flow by 15%.", "A drop in oxygen saturation to < 90%."],
+        "a": 1,
+        "t": "Diagnostics / Methacholine Challenge",
+        "e": "Methacholine is a synthetic cholinergic agonist that binds muscarinic M3 receptors on bronchial smooth muscle, causing contraction. In a methacholine challenge, serial doubling concentrations are inhaled. A test is POSITIVE (confirming bronchial hyperresponsiveness/asthma) if the FEV1 falls by $\ge 20\%$ at a Provocative Concentration ($PC_{20}$) of $\le 8\text{ to }16\text{ mg/mL}$. A negative test virtually rules out asthma (very high negative predictive value)."
+    },
+    {
+        "q": "A patient with severe COPD completes a 6-Minute Walk Test (6MWT) before and after completing an 8-week pulmonary rehabilitation program. What is the internationally established Minimal Clinically Important Difference (MCID) for the 6-Minute Walk Distance that signifies real clinical improvement?",
+        "o": ["An increase of at least 5 meters.", "An increase of at least 30 meters (approximately 100 feet).", "An increase of at least 250 meters.", "Zero change, as COPD is irreversible."],
+        "a": 1,
+        "t": "Pulmonary Rehabilitation / 6MWT",
+        "e": "The 6-Minute Walk Test (6MWT) evaluates global functional exercise capacity. The Minimal Clinically Important Difference (MCID)—the smallest improvement in distance that patients perceive as beneficial—is established by the American Thoracic Society and European Respiratory Society as 30 meters (range 25–33 meters). Achieving a gain $\ge 30\text{ meters}$ confirms meaningful clinical benefit from rehabilitation."
+    },
+    {
+        "q": "A patient with Group 3 Pulmonary Hypertension associated with Interstitial Lung Disease (PH-ILD) is prescribed Inhaled Treprostinil (Tyvaso). What is the cellular target of this drug, and why is the inhaled route used instead of oral or IV?",
+        "o": ["It blocks endothelin receptors; avoids hepatic first-pass metabolism.", "It is a synthetic prostacyclin analog that stimulates adenylate cyclase, increasing intracellular cAMP in pulmonary vascular smooth muscle; delivery via inhalation limits vasodilation to ventilated areas, avoiding worsening of V/Q mismatch and avoiding systemic hypotension.", "It binds soluble guanylate cyclase to decrease cGMP.", "It blocks calcium channels in the left atrium."],
+        "a": 1,
+        "t": "Pharmacology / Inhaled Prostacyclins",
+        "e": "Treprostinil is a prostacyclin analog that induces direct vasodilation of pulmonary arterial vascular beds and inhibits vascular smooth muscle proliferation. In patients with Interstitial Lung Disease (Group 3 PH), intravenous vasodilators dilate all capillaries indiscriminately, worsening intrapulmonary shunting. Administering Treprostinil via ultrasonic inhalation ensures that the drug deposits only in ventilated lung units, improving pulmonary hemodynamics without impairing systemic oxygenation."
+    },
+    {
+        "q": "Riociguat (Adempas) is an oral medication approved for inoperable Chronic Thromboembolic Pulmonary Hypertension (CTEPH). What is its molecular mechanism of action, and which drug class is ABSOLUTELY CONTRAINDICATED with Riociguat due to the risk of fatal syncope and shock?",
+        "o": ["Endothelin receptor antagonist; contraindicated with statins.", "Direct Soluble Guanylate Cyclase (sGC) stimulator (sensitizes sGC to endogenous nitric oxide and directly stimulates sGC to produce cGMP); strictly contraindicated with Phosphodiesterase-5 (PDE-5) Inhibitors (e.g., Sildenafil, Tadalafil) and Nitrates.", "Beta-2 adrenergic agonist; contraindicated with beta-blockers.", "Prostacyclin synthase activator; contraindicated with aspirin."],
+        "a": 1,
+        "t": "Pharmacology / CTEPH",
+        "e": "Riociguat has a dual mode of action: it directly stimulates soluble Guanylate Cyclase (sGC) independently of nitric oxide and sensitizes sGC to endogenous NO, increasing intracellular cyclic GMP (cGMP) to induce vasodilation. Combining Riociguat with PDE-5 inhibitors (which block cGMP breakdown) or Nitrates leads to massive, uncontrollable cGMP accumulation, precipitating profound, refractory systemic hypotension, syncope, and cardiovascular collapse."
+    },
+    {
+        "q": "High-Resolution CT (HRCT) of the chest in a non-smoking female with dyspnea reveals diffuse, uniform, round, thin-walled cysts evenly distributed throughout both lungs without nodules. In contrast, HRCT in a male smoker shows irregular, bizarre-shaped, thick-walled cysts with upper-zone nodules that spare the costophrenic angles. What are the two respective diagnoses?",
+        "o": ["Sarcoidosis and Silicosis", "Lymphangioleiomyomatosis (LAM) versus Pulmonary Langerhans Cell Histiocytosis (PLCH)", "Idiopathic Pulmonary Fibrosis and Hypersensitivity Pneumonitis", "Emphysema and Bronchiectasis"],
+        "a": 1,
+        "t": "Radiology / Cystic Lung Differentials",
+        "e": "Cyst morphology and distribution on HRCT are key to differentiating cystic lung diseases: (1) Lymphangioleiomyomatosis (LAM) presents with thin-walled, uniformly round, regular cysts distributed symmetrically throughout ALL lung fields (including the bases) in females; (2) Pulmonary Langerhans Cell Histiocytosis (PLCH) presents in smokers with centrilobular nodules that cavitate into bizarre, bilobed, or cloverleaf-shaped thick-walled cysts that spare the lung bases and costophrenic angles."
+    },
+    {
+        "q": "The nurse is executing a tracheostomy decannulation protocol for a patient recovering from prolonged respiratory failure. Which prerequisite criteria MUST be verified before permanently pulling the tracheostomy tube?",
+        "o": ["The patient must tolerate a fully inflated cuff for 48 hours.", "Resolution of the primary respiratory failure, ability to clear secretions independently with an effective cough (Peak Cough Flow > 160 L/min), absence of active aspiration, and successful tolerance of continuous tracheostomy tube capping (plugging) for 24 to 48 consecutive hours including sleep.", "Patient must be kept NPO for 7 days post-decannulation.", "Patient must have an uncuffed metal tube placed permanently."],
+        "a": 1,
+        "t": "Airway Care / Decannulation Protocol",
+        "e": "Tracheostomy decannulation requires strict readiness criteria: (1) original indication for tracheostomy has resolved; (2) patient is alert and cooperative; (3) strong spontaneous cough capable of clearing secretions; (4) no upper airway obstruction (confirmed by endoscopic examination or speaking valve/capping trials); and (5) successful tolerance of continuous tube capping (plugging) for 24–48 hours, proving the patient can breathe entirely through their natural upper airway during both wakefulness and sleep."
+    },
+    {
+        "q": "A patient with acute exacerbation of severe COPD is placed on Extracorporeal Carbon Dioxide Removal (ECCO2R). How does the blood flow rate and vascular cannulation of ECCO2R differ from conventional Veno-Venous (V-V) ECMO?",
+        "o": ["ECCO2R requires higher blood flows (5 to 7 L/min) through massive dual femoral cannulas.", "ECCO2R operates at much lower blood flow rates (400 to 1,000 mL/min) using smaller, minimally invasive single- or dual-lumen venous catheters, because carbon dioxide is 20 times more diffusible than oxygen and can be cleared efficiently without massive blood turnover.", "ECCO2R requires direct cannulation of the ascending aorta.", "ECCO2R replaces cardiac output completely."],
+        "a": 1,
+        "t": "Advanced Critical Care / ECCO2R",
+        "e": "Carbon dioxide has an exceptionally high solubility and diffusion coefficient—roughly 20 times higher than oxygen. Consequently, full oxygenation on V-V ECMO requires high blood flow rates (3–5 L/min), whereas effective clearance of CO2 alone ($ECCO_2R$) requires only low blood flows (400–1,000 mL/min, similar to a dialysis machine). This allows $ECCO_2R$ to use smaller venous cannulas, reducing vascular trauma while permitting ultra-low tidal volume ventilation to protect lungs in severe COPD or ARDS."
+    },
+    {
+        "q": "An ICU patient with severe pre-capillary Pulmonary Arterial Hypertension (mPAP 65 mmHg) and acute decompensated right ventricular failure requires emergency endotracheal intubation. Why does standard rapid sequence induction (RSI) carry an extremely high mortality rate (>30%) in this specific patient population?",
+        "o": ["Intubation triggers acute left ventricular rupture.", "Induction agents (propofol/sedatives) induce systemic vasodilation, dropping systemic arterial pressure below right ventricular pressure; this starves the hypertrophied right coronary artery of perfusion, precipitating acute RV ischemia, right ventricular dilatation, septal shift, and fatal PEA arrest.", "The patient is completely immune to neuromuscular blockers.", "Positive pressure ventilation causes severe bronchial rupture."],
+        "a": 1,
+        "t": "Critical Care / Intubation in Severe PAH",
+        "e": "In severe pulmonary arterial hypertension with right ventricular failure, the failing, hypertrophied RV is dependent on high aortic pressure to perfuse the right coronary artery throughout the entire cardiac cycle. Standard induction drugs cause systemic vasodilation and myocardial depression; when systemic pressure drops, right coronary perfusion pressure is extinguished. The ischemic RV dilates, shifts the interventricular septum to the left, collapses left ventricular filling, and triggers an irreversible cardiac arrest."
+    },
+    {
+        "q": "Three weeks after placement of a surgical tracheostomy, a patient suddenly begins coughing up pulsatile, bright red arterial blood from the stoma. Bleeding is brisk and life-threatening. The nurse suspects a Tracheoinnominate Artery Fistula (TIF). What is the immediate, life-saving manual emergency bedside maneuver?",
+        "o": ["Remove the tracheostomy tube immediately and pack the stoma with dry gauze.", "Immediately hyperinflate the tracheostomy cuff to tamponade the bleeding site; if bleeding persists, insert an index finger through the stoma and bluntly compress the innominate artery anteriorly against the posterior surface of the sternal manubrium while rushing to the OR.", "Place the patient in Trendelenburg position and apply an ice collar.", "Perform continuous low-pressure suctioning."],
+        "a": 1,
+        "t": "Surgical Emergencies / Utley Maneuver",
+        "e": "Tracheoinnominate Artery Fistula (TIF) is a rare (0.7%), catastrophic complication caused by an abnormally low tracheostomy stoma (below the 3rd/4th ring) eroding into the anteriorly crossing brachiocephalic (innominate) artery. Mortality is >80%. The immediate life-saving maneuver is: (1) maximally hyperinflate the cuff to tamponade the artery against the sternum; and if bleeding continues, (2) intubate from above, withdraw the trach, and insert an index finger through the stoma (Utley maneuver) to manually compress the innominate artery anteriorly against the manubrium while moving immediately to the OR."
+    },
+    {
+        "q": "An adolescent with acute severe status asthmaticus is breathing at 38 breaths/min with loud expiratory wheezing. Thirty minutes later, the patient's respiratory rate drops to 14 breaths/min, the wheezing completely vanishes, and the arterial blood gas shows: pH 7.36, PaCO2 40 mmHg, PaO2 58 mmHg. Why is a 'normal' PaCO2 of 40 mmHg an ALARMING, critical red-flag finding in a patient with severe asthma?",
+        "o": ["It indicates that the bronchospasm has successfully resolved.", "In severe acute asthma, patients should hyperventilate and blow off CO2, producing an initial hypocapnia (PaCO2 < 35 mmHg); a 'normal' or rising PaCO2 (>= 40 mmHg) in an acutely dyspneic patient indicates severe respiratory muscle exhaustion, loss of alveolar ventilation, and impending fatal respiratory arrest.", "It confirms that the patient is retaining metabolic bicarbonate.", "It proves that the patient has developed pulmonary edema."],
+        "a": 1,
+        "t": "Asthma / Critical Prioritization",
+        "e": "During an acute asthma exacerbation, intense anxiety and severe hypoxemia drive rapid hyperventilation. A normal initial ABG demonstrates marked respiratory alkalosis with hypocapnia ($PaCO_2$ 25–30 mmHg). As airway resistance mounts, the work of breathing consumes up to 30% of cardiac output. When the diaphragm fatigues, minute ventilation plummets; the $PaCO_2$ rises to 'normal' (40 mmHg) and then rapidly surges into acidosis. A 'normal' PaCO2 in severe asthma is an ominous herald of respiratory arrest requiring immediate intubation."
+    },
+    {
+        "q": "A patient with non-cardiogenic pulmonary edema is enrolled in a clinical study investigating Extravascular Lung Water (EVLW). Transpulmonary thermodilution using a PiCCO catheter reports an Extravascular Lung Water Index (EVLWI) of 18 mL/kg (Normal: 3 to 7 mL/kg) and a Pulmonary Vascular Permeability Index (PVPI) of 3.8 (Normal: 1.0 to 3.0). What do an elevated EVLWI and high PVPI definitively confirm?",
+        "o": ["Hydrostatic / cardiogenic pulmonary edema secondary to acute left ventricular systolic failure.", "Increased pulmonary capillary permeability edema (non-cardiogenic / inflammatory ARDS) rather than hydrostatic volume overload.", "Pure intravascular hypovolemia.", "Severe pulmonary thromboembolism."],
+        "a": 1,
+        "t": "Advanced Hemodynamics / PiCCO Technology",
+        "e": "Transpulmonary thermodilution (PiCCO) measures Extravascular Lung Water (EVLW), the volume of fluid accumulated in the interstitial and alveolar spaces. The Pulmonary Vascular Permeability Index (PVPI) represents the ratio of EVLW to pulmonary blood volume ($EVLW / PBV$). An elevated EVLWI (>10 mL/kg) confirms pulmonary edema; a high PVPI (>3.0) proves that the edema is caused by increased microvascular permeability (inflammatory alveolar capillary breakdown characteristic of ARDS), whereas a normal PVPI (<3.0) indicates hydrostatic, cardiogenic pulmonary edema."
+    }
+];
+
+// Combine both parts into the full 100-question mock exam
+const rawQuestions = rawQuestionsPart1.concat(rawQuestionsPart2);
+
+// Structure into 5 sections of 20 questions each
+let sections = [];
+for (let i = 0; i < 5; i++) {
+    sections.push(rawQuestions.slice(i * 20, (i + 1) * 20));
+}
+
+let currentSection = 0;
+let currentQ = 0;
+let score = 0;
+let correctCount = 0;
+let wrongCount = 0;
+let answeredCount = 0;
+let answersData = Array.from({length: 5}, () => new Array(20).fill(null));
+
+// Timers (in seconds)
+let sectionTimeLeft = 18 * 60; // 18 minutes per section
+let totalTimeLeft = 90 * 60;   // 90 minutes total
+let timerInterval;
+
+const quizBody = document.getElementById('quiz-body');
+const scoreEl = document.getElementById('score');
+const qCounterEl = document.getElementById('q-counter');
+const secDisplayEl = document.getElementById('section-display');
+const secTimerEl = document.getElementById('section-timer');
+const totTimerEl = document.getElementById('total-timer');
+const progressEl = document.getElementById('progress');
+
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0');
+}
+
+function updateTimers() {
+    if (totalTimeLeft <= 0) {
+        clearInterval(timerInterval);
+        finishExam();
+        return;
+    }
+    
+    sectionTimeLeft--;
+    totalTimeLeft--;
+    
+    secTimerEl.innerText = "Section Time: " + formatTime(sectionTimeLeft);
+    totTimerEl.innerText = "Total Time: " + formatTime(totalTimeLeft);
+    
+    if (sectionTimeLeft <= 0) {
+        advanceSection();
+    }
+}
+
+function advanceSection() {
+    if (currentSection < 4) {
+        alert("Time's up for Section " + (currentSection + 1) + ". Auto-advancing to Section " + (currentSection + 2) + ".");
+        currentSection++;
+        currentQ = 0;
+        sectionTimeLeft = 18 * 60; 
+        renderQuestion();
+    } else {
+        clearInterval(timerInterval);
+        finishExam();
+    }
+}
+
+function renderQuestion() {
+    quizBody.innerHTML = '';
+    const q = sections[currentSection][currentQ];
+    const globalQNum = (currentSection * 20) + currentQ + 1;
+    
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question-container active';
+    
+    const isAnswered = answersData[currentSection][currentQ] !== null;
+    const selectedIdx = answersData[currentSection][currentQ];
+    
+    let optionsHtml = '';
+    q.o.forEach((opt, optIndex) => {
+        let btnClass = 'option-btn';
+        if (isAnswered) {
+            btnClass += ' disabled';
+            if (optIndex === q.a) btnClass += ' correct';
+            else if (optIndex === selectedIdx) btnClass += ' incorrect';
+        }
+        optionsHtml += '<button class="' + btnClass + '" onclick="checkAnswer(' + optIndex + ', this)">' + String.fromCharCode(65 + optIndex) + '. ' + opt + '</button>';
+    });
+
+    let navHtml = '';
+    if (currentQ > 0) {
+        navHtml += '<button class="nav-btn" onclick="navigate(-1)">Previous</button>';
+    } else {
+        navHtml += '<button class="nav-btn" disabled>Previous</button>';
+    }
+    
+    if (currentQ < 19) {
+        navHtml += '<button class="nav-btn" onclick="navigate(1)">Next</button>';
+    } else {
+        if (currentSection < 4) {
+            navHtml += '<button class="nav-btn" onclick="submitSection()">Submit Section ' + (currentSection + 1) + '</button>';
+        } else {
+            navHtml += '<button class="nav-btn" onclick="finishExam()">Final Submit</button>';
+        }
+    }
+
+    qDiv.innerHTML = '<div class="subject-tag">' + q.t + '</div>' +
+                     '<div class="q-text">Q' + globalQNum + ': ' + q.q + '</div>' +
+                     '<div class="options" id="opts-container">' + optionsHtml + '</div>' +
+                     '<div class="rationale" id="rationale-box" style="display: ' + (isAnswered ? 'block' : 'none') + ';">' +
+                     '<strong>Clinical Rationale:</strong> ' + q.e + '</div>' +
+                     '<div class="navigation">' + navHtml + '</div>';
+    quizBody.appendChild(qDiv);
+    
+    secDisplayEl.innerText = "Section: " + (currentSection + 1) + " / 5";
+    qCounterEl.innerText = "Q: " + (currentQ + 1) + " / 20";
+    
+    const globalProgress = (globalQNum / 100) * 100;
+    progressEl.style.width = globalProgress + '%';
+}
+
+window.checkAnswer = function(selectedOptIndex, btnElement) {
+    if (answersData[currentSection][currentQ] !== null) return; 
+    
+    const q = sections[currentSection][currentQ];
+    answersData[currentSection][currentQ] = selectedOptIndex;
+    
+    const container = document.getElementById('opts-container');
+    const buttons = container.querySelectorAll('.option-btn');
+    
+    buttons.forEach(b => b.classList.add('disabled'));
+    
+    answeredCount++;
+
+    if (selectedOptIndex === q.a) {
+        btnElement.classList.add('correct');
+        score += 1;
+        correctCount++;
+    } else {
+        btnElement.classList.add('incorrect');
+        buttons[q.a].classList.add('correct');
+        score -= 0.3333; // 1/3 Negative marking
+        wrongCount++;
+    }
+    
+    document.getElementById('rationale-box').style.display = 'block';
+    scoreEl.innerText = score.toFixed(2);
+}
+
+window.navigate = function(dir) {
+    currentQ += dir;
+    renderQuestion();
+}
+
+window.submitSection = function() {
+    let unans = 0;
+    for(let i = 0; i < 20; i++) {
+        if(answersData[currentSection][i] === null) unans++;
+    }
+    if(unans > 0) {
+        if(!confirm("You have " + unans + " unattempted questions in this section. Submit and move to next section? You CANNOT return.")) return;
+    } else {
+        if(!confirm("Are you sure you want to submit Section " + (currentSection + 1) + "? You CANNOT return.")) return;
+    }
+    
+    currentSection++;
+    currentQ = 0;
+    sectionTimeLeft = 18 * 60; 
+    renderQuestion();
+}
+
+window.finishExam = function() {
+    clearInterval(timerInterval);
+    quizBody.style.display = 'none';
+    document.querySelector('.dashboard').style.display = 'none';
+    document.querySelector('.progress-bar').style.display = 'none';
+    document.getElementById('results-screen').style.display = 'block';
+    
+    let finalScoreFormatted = score < 0 ? "0.00" : score.toFixed(2);
+    document.getElementById('final-score-display').innerText = finalScoreFormatted + " / 100";
+    
+    let unattemptedCount = 100 - answeredCount;
+    
+    document.getElementById('stat-att').innerText = answeredCount;
+    document.getElementById('stat-unatt').innerText = unattemptedCount;
+    document.getElementById('stat-corr').innerText = correctCount;
+    document.getElementById('stat-wrong').innerText = wrongCount;
+}
+
+// Immediate execution ensures the questions render without waiting on external fonts
+renderQuestion();
+timerInterval = setInterval(updateTimers, 1000);
+</script>
+
+</body>
+</html>
